@@ -1,0 +1,24 @@
+Application purpose
+Keeping a list of tasks with checklists grouped by time and a category.
+
+Task
+A task has a name and a checklist. A task can be created and saved (from any list view - either time list or category list), edited and saved, removed, completed. A task is stored always in one time list (mandatory; Today by default). May also be listed in one (only one) category.
+
+Time lists
+All tasks are grouped in time lists. Only 3 lists are available in version 1.0 (Today, Later, Completed). A user cannot add new time lists.
+
+Categories
+A task may also have one category (optional). There are two categories available from the start (Personal and Work) which can be edited or removed by a user. A user can add their own categories as well.
+
+Account registration
+To use the app a user needs to create an account. Email and password are the only needed fields.
+
+Settings
+Edit the avatar (requirements: size, format) by choosing a file (available in the smartphone) or inserting a URL. Change email. Change password. Log out.
+
+Launch page
+Launching the app for unregistered user. When an app is opened by an unregistered user, they see a welcome screen with the following elements: the logo, welcome text, email and password fields, a button “Register/Log in” (or two separate buttons?).
+
+Register/Log in
+A user need to fulfill two fields: Email and password. After submitting the fields are checked by the app. If the check is passed, the home page of the app is opened with user logged in.
+
