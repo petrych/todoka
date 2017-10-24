@@ -1,5 +1,5 @@
 /**
- * This class is responsible for creating a checklist as a map of items and their checked states.
+ * This class is responsible for creating a checklist as a map of text fields and checkboxes.
  *
  */
 
@@ -20,7 +20,7 @@ public class Checklist {
     }
 
     /**
-     * Print all items in the checklist as a line + its checked status which can be true or false
+     * Print all items in the checklist as a text field + its checkbox status which can be true or false
      */
     public void getChecklist(){
         Iterator it = checklist.entrySet().iterator();
@@ -28,8 +28,10 @@ public class Checklist {
             HashMap.Entry pair = (HashMap.Entry)it.next();
             String itemName = ((ItemInChecklist) pair.getKey()).getName();
 
-            // TODO - How to change printing to returning without quitting the loop?
+            // TODO - How to change printing to returning without quitting the loop? Delete all unnecessary comments after implementation
             System.out.println(itemName + " = " + pair.getValue());
+            //return "loop finished"; // return statement finishes the loop :(
         }
+        // return "getChecklist finished";
     }
 }

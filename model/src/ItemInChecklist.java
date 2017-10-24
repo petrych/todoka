@@ -6,10 +6,11 @@
 public class ItemInChecklist {
 
     private String name;
+    private static final String DEFAULT_NAME = "?";
     private boolean checked;
 
     public ItemInChecklist() {
-        this.name = "?";
+        this.name = DEFAULT_NAME;
         this.checked = false;
     }
 
