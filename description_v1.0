@@ -1,16 +1,17 @@
 Application purpose
-Keeping a list of tasks with checklists grouped by time and a category.
+Keeping a list of tasks with checklists grouped by time period and a category.
 
 Task
 A task has a name and a checklist.
-A task can be created and saved (from any list view - either time list or category list), edited and saved,
-removed, completed.
-A task is stored always in one time list (mandatory; Today by default).
+A task can be created and saved (from any list view - either time period or category list),
+edited and saved, removed, completed.
+A task is stored always in one time period (mandatory; Today by default).
 May also be listed in one (only one) category.
 
-Time lists
-All tasks are grouped in time lists. Only 3 lists are available in version 1.0 (Today, Later, Completed).
-A user cannot add new time lists.
+Time periods
+All tasks are grouped in time periods.
+Only 3 time periods are available in version 1.0 (Today, Later, Completed).
+A user cannot add new time periods.
 
 Categories
 A task may also have one category (optional).
