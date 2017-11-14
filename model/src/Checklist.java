@@ -1,6 +1,8 @@
 /**
- * This class is responsible for creating a checklist as a map of text fields and checkboxes.
+ * This class is designed for future releases. Not used for v.1.0.
  *
+ * This class is responsible for creating a checklist as a map of text fields and checkboxes.
+ * Add a field to the TaskItem class (private Checklist checklist;)
  */
 
 import java.util.HashMap;

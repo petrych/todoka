@@ -1,4 +1,6 @@
 /**
+ * This class is designed for future releases. Not used for v.1.0.
+ *
  * This class is responsible for creating a single item in a checklist. An item consists of a text field and a checkbox,
  * representing a checked state - true or false. False by default.
  */
