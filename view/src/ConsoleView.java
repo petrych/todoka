@@ -1,55 +1,45 @@
 import java.io.*;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConsoleView {
     private TaskDatabase db;
     private Scanner consoleReader;
-    private FileReader fileReader;
-    private FileWriter fileWriter;
-    private String fileName = "/Users/nastya/repos/todoka/controller/todayTasks.txt";
+
     private CommandMap commands;
 
     // todo - rethink and redo the reader and the writer; move some of their functionality to the Controller
-    public ConsoleView() {
+    public ConsoleView() throws IOException {
         db = new TaskDatabase();
         consoleReader = new Scanner(System.in);
         commands = new CommandMap();
-
-        // Create a reader object for the given file.
-        try {
-            fileReader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-        } catch (FileNotFoundException exception) {
-            System.out.println("Unable to open file '" + fileName + "'.");
-        }
-
-        // Create a writer object for the given file.
-        try {
-            fileWriter = new FileWriter(fileName, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        } catch (IOException ex) {
-            System.out.println("Error writing to file '" + fileName + "'.");
-        }
     }
         // Handling the input from the console.
         public void mainLoop() throws IOException {
-
             printGreetingMessage();
-
             while (true) {
                 commands.printCommands();
                 String line;
 
+                // Process a command entered.
                 try {
                     line = consoleReader.nextLine();
                     if (line.equals(CommandWord.CREATE_TASK.toString())) {
                         createTask();
                     }
                     else if (line.equals(CommandWord.SHOW_TODAY_TASKS.toString())) {
-                        displayFileContent();
+                        db.showTasksFromFile(db.fileTodayTasks);
+                    }
+                    else if (line.equals(CommandWord.SHOW_WEEK_TASKS.toString())) {
+                        db.showTasksFromFile(db.fileWeekTasks);
+                    }
+                    else if (line.equals(CommandWord.SHOW_LATER_TASKS.toString())) {
+                        db.showTasksFromFile(db.fileLaterTasks);
+                    }
+                    else if (line.equals(CommandWord.SHOW_COMPLETED_TASKS.toString())) {
+                        db.showTasksFromFile(db.fileCompletedTasks);
                     }
                     else if (line.equals(CommandWord.QUIT.toString())) {
+                        printByeMessage();
                         break;
                     }
                     else {
@@ -63,56 +53,25 @@ public class ConsoleView {
             }
         }
 
-        private void displayFileContent() throws IOException {
-            int character;
-            fileReader = new FileReader(fileName);
-            if (fileReader.read() == -1) {
-                System.out.println("The task list is empty. Enter 'ct' to create a task.");
-            }
-            fileReader = new FileReader(fileName);
-            try {
-                while ((character = fileReader.read())!= -1) {
-                    System.out.print((char)character);
-                }
-            }
-            catch (IOException e) {
-                System.out.println("Error: Couldn't read from the file. Try again.");
-                e.printStackTrace();
-            }
-        }
-
         private void createTask() throws IOException {
             System.out.println("Enter a task name or press 'q' to go back.");
             String line = consoleReader.nextLine();
-            if ("q".equals(line)) {
+            if (line.equals(CommandWord.QUIT)) {
                 return;
             }
             else {
-                addTaskToDatabase(new TaskItem(line));
+                TaskItem task = new TaskItem(line);
+                db.writeTaskToFile(task, db.getFileWithTasks(task));
+                System.out.println("The task is added successfully.");
             }
-        }
-
-        private void addTaskToDatabase(TaskItem task) throws IOException {
-            try {
-                fileWriter.write(taskToString(task));
-                fileWriter.write("\n");           // add a line break
-                fileWriter.flush();
-            }
-           catch(IOException e) {
-               System.out.println("Error: Couldn't write to the file. Try again.");
-               e.printStackTrace();
-            }
-            db.addTask(task);
-        }
-
-        public static String taskToString(TaskItem task) {
-            return "Name: " + task.getName() +
-                    ", timePeriod is: " + task.getTimePeriod() +
-                    ", completed: " + task.isCompleted();
         }
 
         private void printGreetingMessage() {
             System.out.println("TODO-ka 0.1");
-            System.out.println("What would you like to do next? Enter a command:");
+        }
+
+        private void printByeMessage() {
+            System.out.println();
+            System.out.println("Bye! See you later :)");
         }
 }

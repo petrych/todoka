@@ -37,7 +37,7 @@ public class Startup {
     public static void printTaskDetails(ArrayList<TaskItem> list) {
         System.out.println("------------");
         for (TaskItem task : list) {
-            ConsoleView.taskToString(task);
+            //taskToString(task);
         }
         System.out.println("------------");
     }
