@@ -34,16 +34,22 @@ public class TaskDatabase {
     HashMap<CommandWord, String> commandWordToFile;
 
     public TaskDatabase() throws IOException, ParseException {
-        // The task lists are populated from the corresponding files
-        this.todayTasks = new ArrayList<>();
         jsonHandler = new JsonHandler();
-        todayTasks = jsonHandler.readTaskItemList(fileTodayTasks);
-        // TODO add initialization for other task lists
-        this.weekTasks = new ArrayList<>();
-        this.laterTasks = new ArrayList<>();
-        this.completedTasks = new ArrayList<>();
 
-        // Create a reader and write objects for default file.
+        // Populate the task lists from the corresponding files
+        this.todayTasks = new ArrayList<>();
+        todayTasks = jsonHandler.readTaskItemList(fileTodayTasks);
+
+        this.weekTasks = new ArrayList<>();
+        weekTasks = jsonHandler.readTaskItemList(fileWeekTasks);
+
+        this.laterTasks = new ArrayList<>();
+        laterTasks = jsonHandler.readTaskItemList(fileLaterTasks);
+
+        this.completedTasks = new ArrayList<>();
+        completedTasks = jsonHandler.readTaskItemList(fileCompletedTasks);
+
+        // Create a reader and writer objects for the default file.
         createFileReader(file);
         createFileWriter(file);
     }
