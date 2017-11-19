@@ -80,7 +80,6 @@ public class ConsoleView {
             String line = consoleReader.nextLine();
 
             // Process a command entered.
-
             if (line.equals("1")) {
                 System.out.println("Enter a new task name:");
                 line = consoleReader.nextLine();
@@ -90,23 +89,32 @@ public class ConsoleView {
 
                 System.out.println("The task name is changed successfully.");
             }
-            // TODO - add changes for "2 - to mark as completed"
             else if (line.equals("2")) {
                 System.out.println("Enter 'y' - to mark the task as completed" +
                         " or any other key to return back");
                 line = consoleReader.nextLine();
 
-                if (line.equals("y")) {
-                    ArrayList<TaskItem> taskListOld = db.getListWithTasks(task);
-                    task.setCompleted();
-                    db.writeTaskToFile(task.getTimePeriod());
-
-                    db.addTaskToList(task);
-                    taskListOld.remove(task);
-
-                    System.out.println("The task is marked as completed");
+                // Go back when user presses any key except 'y'.
+                if (!line.equals("y")) {
+                    System.out.println("");
+                    return;
                 }
-                else return;
+
+                TimePeriod oldTimePeriod = task.getTimePeriod();
+                ArrayList<TaskItem> taskListOld = db.getListWithTasks(oldTimePeriod);
+
+                task.setCompleted();
+
+                ArrayList<TaskItem> taskListNew = db.getListWithTasks(TimePeriod.COMPLETED);
+
+                taskListOld.remove(task);
+                taskListNew.add(task);
+
+                db.writeTaskToFile(oldTimePeriod);
+                db.writeTaskToFile(TimePeriod.COMPLETED);
+
+                System.out.println("The task is marked as completed and moved to the Completed list.");
+
             }
 
             else if (line.equals("3")) {
@@ -131,9 +139,10 @@ public class ConsoleView {
                     task.setCompleted();
                 }
 
-                if (newTimePeriod == oldTimePeriod)
-                    // TODO add message
+                if (newTimePeriod == oldTimePeriod) {
+                    System.out.println("The time period of the task remains the same.");
                     return;
+                }
 
                 task.setTimePeriod(newTimePeriod);
 
