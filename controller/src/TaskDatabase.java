@@ -1,11 +1,8 @@
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TaskDatabase {
     // Paths for files of tasks with different time periods.
@@ -14,11 +11,6 @@ public class TaskDatabase {
     public String fileLaterTasks = "/Users/nastya/repos/todoka/controller/laterTasks.txt";
     public String fileCompletedTasks = "/Users/nastya/repos/todoka/controller/completedTasks.txt";
 
-    // Default filePath for reading and writing.
-    private String filePath = setDefaultFilePath();
-
-    private FileReader fileReader;
-    private FileWriter fileWriter;
     private JsonHandler jsonHandler;
 
     // Storage for the tasks from the corresponding filePath.
@@ -43,77 +35,13 @@ public class TaskDatabase {
         this.completedTasks = new ArrayList<>();
         completedTasks = jsonHandler.readTaskItemList(fileCompletedTasks);
 
-        // Create a reader and writer objects for the given file path.
-        createFileReader(filePath);
-        createFileWriter(filePath);
     }
 
-    private void createFileReader(String filePath) throws IOException {
+    public void writeTaskToFile(TimePeriod timePeriod) throws IOException, ParseException {
+        ArrayList<TaskItem> taskList = getListWithTasks(timePeriod);
         try {
-            fileReader = new FileReader(filePath);
-        }
-        catch (FileNotFoundException exception) {
-            System.out.println("Unable to open file '" + filePath + "'.");
-        }
-    }
-
-    private void createFileWriter(String filePath) throws IOException {
-        try {
-            fileWriter = new FileWriter(filePath, true);
-        }
-        catch (IOException ex) {
-            System.out.println("Error writing to file '" + filePath + "'.");
-        }
-    }
-
-    // Set default filePath for reading and writing. Depends on the default timePeriod value in model/TaskItem.
-    private String setDefaultFilePath() {
-        if (TaskItem.getDefaultTimePeriod() == TimePeriod.TODAY) {
-            return fileTodayTasks;
-        }
-
-        if (TaskItem.getDefaultTimePeriod() == TimePeriod.WEEK) {
-            return fileWeekTasks;
-        }
-
-        if (TaskItem.getDefaultTimePeriod() == TimePeriod.LATER) {
-            return fileLaterTasks;
-        }
-        else {
-            return fileCompletedTasks;
-        }
-    }
-
-    // Return the default filePath for reading and writing.
-    public String getDefaultFile() {
-        return filePath;
-    }
-
-    // Return the right filePath for the task
-    public String getFileWithTasks(TaskItem task) {
-        if (task.getTimePeriod() == TimePeriod.TODAY) {
-            return fileTodayTasks;
-        }
-
-        if (task.getTimePeriod() == TimePeriod.WEEK) {
-        return fileWeekTasks;
-        }
-
-        if (task.getTimePeriod() == TimePeriod.LATER) {
-            return fileLaterTasks;
-        }
-
-        else {
-            return fileCompletedTasks;
-        }
-    }
-
-    public void writeTaskToFile(TaskItem task, String filePath) throws IOException, ParseException {
-        ArrayList list = addTaskToList(task);
-
-        try {
-            if (list != null)
-            jsonHandler.saveTaskListToJson(list, filePath);
+            if (taskList != null)
+            jsonHandler.saveTaskListToJson(taskList, getFileByTimePeriod(timePeriod));
         }
         catch(IOException e) {
             System.out.println("Error: Couldn't write to the file. Try again.");
@@ -145,8 +73,8 @@ public class TaskDatabase {
         return null;
     }
 
-    public void showTasksFromFile(String filePath) {
-        ArrayList<TaskItem> taskList = getListWithTasks(filePath);
+    public void showTasksFromFile(TimePeriod period) {
+        ArrayList<TaskItem> taskList = getListWithTasks(period);
         if (taskList.isEmpty()) {
             System.out.println("The task list is empty.");
         }
@@ -156,57 +84,83 @@ public class TaskDatabase {
         }
     }
 
-    // Return the serial number of task, NOT its index.
-    public int getTaskNumberInList(TaskItem task, ArrayList<TaskItem> list) {
-        TimePeriod timePeriod = task.getTimePeriod();
-        int taskIndex = 0;
-
-        if (task.getTimePeriod() == TimePeriod.TODAY) {
-            taskIndex = todayTasks.indexOf(task);
-        }
-
-        if (task.getTimePeriod() == TimePeriod.WEEK) {
-            taskIndex = weekTasks.indexOf(task);
-        }
-
-        if (task.getTimePeriod() == TimePeriod.LATER) {
-            taskIndex = laterTasks.indexOf(task);
-        }
-
-        if (task.getTimePeriod() == TimePeriod.COMPLETED) {
-            taskIndex = completedTasks.indexOf(task);
-        }
-
-        return taskIndex + 1;
-    }
-
-    public ArrayList<TaskItem> getListWithTasks(String filePath) {
-        if (filePath == fileTodayTasks) {
+    public ArrayList<TaskItem> getListWithTasks(TimePeriod period) {
+        if (period == TimePeriod.TODAY) {
             return todayTasks;
         }
 
-        if (filePath == fileWeekTasks) {
+        if (period == TimePeriod.WEEK) {
             return weekTasks;
         }
 
-        if (filePath == fileLaterTasks) {
+        if (period == TimePeriod.LATER) {
             return laterTasks;
         }
 
-        if (filePath == fileCompletedTasks) {
+        if (period == TimePeriod.COMPLETED) {
             return completedTasks;
         }
 
         return todayTasks;
     }
 
-    /**
-     * Empty a task list and erase the content of a given file
-     * @param filePath path to a file which content is to be erased
-     * @throws IOException
-     */
-    public void clearTaskListAndFile(String filePath) throws IOException {
-        getListWithTasks(filePath).clear();
-        new FileWriter(filePath).close();
+    public ArrayList<TaskItem> getListWithTasks(TaskItem task) {
+        if (todayTasks.contains(task)) {
+            return todayTasks;
+        }
+
+        if (weekTasks.contains(task)) {
+            return weekTasks;
+        }
+
+        if (laterTasks.contains(task)) {
+            return laterTasks;
+        }
+
+        if (completedTasks.contains(task)) {
+            return completedTasks;
+        }
+
+        return todayTasks;
+    }
+
+    public String getFileByTimePeriod(TimePeriod timePeriod) {
+        if (timePeriod == TimePeriod.TODAY) {
+            return fileTodayTasks;
+        }
+        if (timePeriod == TimePeriod.WEEK) {
+            return fileWeekTasks;
+        }
+        if (timePeriod == TimePeriod.LATER) {
+            return fileLaterTasks;
+        }
+        if (timePeriod == TimePeriod.COMPLETED) {
+            return fileCompletedTasks;
+        }
+
+        return fileTodayTasks;
+    }
+
+    // TODO - in progress. Finding task name
+    public TaskItem findTaskByName(String str, ArrayList<TaskItem> taskList) {
+        TaskItem result = null;
+        boolean taskFound = false;
+
+        while (!taskFound) {
+            for (TaskItem task : taskList) {
+                if (task.getName().startsWith(str)) {
+                    result = task;
+                    taskFound = true;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // TODO - add functionality: "remove task"
+    public void removeTask(TaskItem taskToRemove) {
+        // ???
+        System.out.println("The task is removed.");
     }
 }

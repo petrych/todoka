@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="1. Refactored the method for showing tasks from file: now it depends only on the task list and not on the content of the file.&#10;2. Added a method to both clear a task list and erase the corresponding file.&#10;3. Refactored slightly the class TaskDatabase.">
+    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/completedTasks.txt" afterPath="$PROJECT_DIR$/controller/completedTasks.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/laterTasks.txt" afterPath="$PROJECT_DIR$/controller/laterTasks.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/TaskDatabase.java" afterPath="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/todayTasks.txt" afterPath="$PROJECT_DIR$/controller/todayTasks.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/weekTasks.txt" afterPath="$PROJECT_DIR$/controller/weekTasks.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/src/TaskItem.java" afterPath="$PROJECT_DIR$/model/src/TaskItem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/ConsoleView.java" afterPath="$PROJECT_DIR$/view/src/ConsoleView.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -23,12 +27,12 @@
       <file leaf-file-name="ConsoleView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="61" column="20" lean-forward="true" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
+            <state relative-caret-position="181">
+              <caret line="104" column="45" lean-forward="true" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2714#2715#0" expanded="true" />
-                <element signature="e#2771#2772#0" expanded="true" />
+                <element signature="e#6149#6150#0" expanded="true" />
+                <element signature="e#6206#6207#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -37,21 +41,11 @@
       <file leaf-file-name="TaskDatabase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="46" column="35" lean-forward="true" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+            <state relative-caret-position="367">
+              <caret line="37" column="5" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="82">
-              <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -59,21 +53,11 @@
       <file leaf-file-name="JsonHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/JsonHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
-              <caret line="48" column="34" lean-forward="false" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="34" />
+            <state relative-caret-position="306">
+              <caret line="48" column="16" lean-forward="false" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommandWord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/src/CommandWord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -460,7 +444,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511089548959</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class.">
+      <created>1511090516548</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1511090516548</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
@@ -474,7 +465,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2048" height="1152" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900834" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -484,7 +474,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22613531" sideWeight="0.42123628" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30769232" sideWeight="0.5787637" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30769232" sideWeight="0.5787637" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18707015" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900834" sideWeight="0.49601197" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -575,7 +565,8 @@
     <MESSAGE value="Updated the default constructor od TaskDatabase: &quot;populate the task lists from the corresponding files&quot;" />
     <MESSAGE value="Changed the way tasks from a file are shown in the console." />
     <MESSAGE value="1. Refactored the method for showing tasks from file: now it depends only on the task list and not on the content of the file.&#10;2. Added a method to both clear a task list and erase the corresponding file.&#10;3. Refactored slightly the class TaskDatabase." />
-    <option name="LAST_COMMIT_MESSAGE" value="1. Refactored the method for showing tasks from file: now it depends only on the task list and not on the content of the file.&#10;2. Added a method to both clear a task list and erase the corresponding file.&#10;3. Refactored slightly the class TaskDatabase." />
+    <MESSAGE value="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -587,7 +578,7 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="18" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -636,8 +627,8 @@
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2714#2715#0" expanded="true" />
-            <element signature="e#2771#2772#0" expanded="true" />
+            <element signature="e#6149#6150#0" expanded="true" />
+            <element signature="e#6206#6207#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -666,8 +657,8 @@
           <caret line="40" column="32" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2714#2715#0" expanded="true" />
-            <element signature="e#2771#2772#0" expanded="true" />
+            <element signature="e#6149#6150#0" expanded="true" />
+            <element signature="e#6206#6207#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -882,23 +873,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/src/TimePeriod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/startup/src/Android_JSON.java" />
-    <entry file="file://$PROJECT_DIR$/model/src/CommandMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="29" column="31" lean-forward="true" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -952,7 +927,7 @@
         <state relative-caret-position="452">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -978,18 +953,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/src/CommandMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="29" column="31" lean-forward="true" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/src/TimePeriod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
+        <state relative-caret-position="1026">
+          <caret line="57" column="13" lean-forward="false" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/src/CommandWord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/src/JsonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="48" column="34" lean-forward="false" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="34" />
+        <state relative-caret-position="306">
+          <caret line="48" column="16" lean-forward="false" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -998,30 +997,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="46" column="35" lean-forward="true" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+        <state relative-caret-position="367">
+          <caret line="37" column="5" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/src/CommandWord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="61" column="20" lean-forward="true" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
+        <state relative-caret-position="181">
+          <caret line="104" column="45" lean-forward="true" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2714#2715#0" expanded="true" />
-            <element signature="e#2771#2772#0" expanded="true" />
+            <element signature="e#6149#6150#0" expanded="true" />
+            <element signature="e#6206#6207#0" expanded="true" />
           </folding>
         </state>
       </provider>
