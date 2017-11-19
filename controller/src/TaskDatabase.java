@@ -1,3 +1,5 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
@@ -151,20 +153,22 @@ public class TaskDatabase {
         return null;
     }
 
-    public void showTasksFromFile(String file) throws IOException {
-        int character;
-        fileReader = new FileReader(file);
+    public void showTasksFromFile(String filePath) throws IOException {
+        fileReader = new FileReader(filePath);
         if (fileReader.read() == -1) {
-            System.out.println("The task list is empty. Enter " + CommandWord.CREATE_TASK + " to create a task.");
+            System.out.println("The task list is empty.");
         }
-        fileReader = new FileReader(file);
+        fileReader = new FileReader(filePath);
 
         try {
-            while ((character = fileReader.read())!= -1) {
-                System.out.print((char)character);
+            while (fileReader.read() != -1) {
+                // read the task list and return each task as a new line
+                for (TaskItem task : getListWithTasks(filePath)) {
+                    System.out.println(task.taskToString());
+                }
             }
         }
-        catch (IOException e) {
+        catch(IOException e) {
             System.out.println("Error: Couldn't read from the file. Try again.");
             e.printStackTrace();
         }

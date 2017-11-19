@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="Updated">
+    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/JsonHandler.java" afterPath="$PROJECT_DIR$/controller/src/JsonHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/TaskDatabase.java" afterPath="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/src/TaskItem.java" afterPath="$PROJECT_DIR$/model/src/TaskItem.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +22,8 @@
       <file leaf-file-name="ConsoleView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+            <state relative-caret-position="399">
+              <caret line="35" column="39" lean-forward="false" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2692#2693#0" expanded="true" />
@@ -33,11 +33,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskDatabase.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TaskItem.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskDatabase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="38" column="21" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="474">
+              <caret line="174" column="5" lean-forward="false" selection-start-line="174" selection-start-column="5" selection-end-line="174" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -48,8 +58,8 @@
       <file leaf-file-name="JsonHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/JsonHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="22" column="23" lean-forward="false" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+            <state relative-caret-position="282">
+              <caret line="25" column="55" lean-forward="true" selection-start-line="25" selection-start-column="55" selection-end-line="25" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -86,15 +96,15 @@
         <option value="$PROJECT_DIR$/startup/src/Android_JSON.java" />
         <option value="$PROJECT_DIR$/model/src/CommandMap.java" />
         <option value="$PROJECT_DIR$/controller/src/JsonParser.java" />
-        <option value="$PROJECT_DIR$/view/src/ConsoleView.java" />
         <option value="$PROJECT_DIR$/../_libraries/json-simple-1.1.jar!/org/json/simple/JSONArray.class" />
         <option value="$PROJECT_DIR$/controller/completedTasks.txt" />
-        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
         <option value="$PROJECT_DIR$/model/src/ItemInChecklist.java" />
         <option value="$PROJECT_DIR$/model/src/Checklist.java" />
         <option value="$PROJECT_DIR$/startup/src/Startup.java" />
         <option value="$PROJECT_DIR$/controller/src/JsonHandler.java" />
         <option value="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
+        <option value="$PROJECT_DIR$/view/src/ConsoleView.java" />
+        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
       </list>
     </option>
   </component>
@@ -418,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511079200398</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Updated the default constructor od TaskDatabase: &quot;populate the task lists from the corresponding files&quot;">
+      <created>1511079800180</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1511079800180</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -530,7 +547,8 @@
     <MESSAGE value="Added three more text files for storing tasks (completedTasks, laterTasks, weekTasks).&#10;&#10;Refactored TaskItem and TaskDatabase classes - introduced a default time period which is used for defining a default file for writing tasks into.&#10;Refactored a TaskDatabase constructor - moved t creation of reader and writer objects to separate methods.&#10;&#10;Added new commands to CommandWord and handling of some commands in consoleView.mainLoop().&#10;&#10;New functionality: &#10;- set and get default time period;&#10;- set and get the default file for writing, using a default time period;&#10;- show tasks for different time periods (week, later, completed);" />
     <MESSAGE value="Added draft class for JSONparsing" />
     <MESSAGE value="1. Added new class JsonHandler for handling JSON format.&#10;2. Added text files for storing tasks according to their time period.&#10;3. Updated the list of TODOs across all files.&#10;4. Refactored methods for writing and reading from a file in TaskDataBase class." />
-    <option name="LAST_COMMIT_MESSAGE" value="1. Added new class JsonHandler for handling JSON format.&#10;2. Added text files for storing tasks according to their time period.&#10;3. Updated the list of TODOs across all files.&#10;4. Refactored methods for writing and reading from a file in TaskDataBase class." />
+    <MESSAGE value="Updated the default constructor od TaskDatabase: &quot;populate the task lists from the corresponding files&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the default constructor od TaskDatabase: &quot;populate the task lists from the corresponding files&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -920,14 +938,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="31" column="7" lean-forward="false" selection-start-line="31" selection-start-column="7" selection-end-line="31" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/startup/src/Startup.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -938,10 +948,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/lang/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="234" column="18" lean-forward="false" selection-start-line="234" selection-start-column="18" selection-end-line="234" selection-end-column="18" />
+          <folding>
+            <element signature="e#10065#10066#0" expanded="false" />
+            <element signature="e#10148#10149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/JsonHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="25" column="55" lean-forward="true" selection-start-line="25" selection-start-column="55" selection-end-line="25" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+        <state relative-caret-position="399">
+          <caret line="35" column="39" lean-forward="false" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2692#2693#0" expanded="true" />
@@ -950,23 +981,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/JsonHandler.java">
+    <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="23" lean-forward="false" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+        <state relative-caret-position="474">
+          <caret line="174" column="5" lean-forward="false" selection-start-line="174" selection-start-column="5" selection-end-line="174" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
+    <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="38" column="21" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="494">
+          <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
