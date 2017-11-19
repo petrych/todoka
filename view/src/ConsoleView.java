@@ -55,12 +55,11 @@ public class ConsoleView {
         }
 
         private void createTask() throws IOException, ParseException {
-            System.out.println("Enter a task name or press 'q' to go back.");
+            System.out.println("Enter a task name or press '" + CommandWord.QUIT + "' to go back.");
             String line = consoleReader.nextLine();
-            if (line.equals(CommandWord.QUIT)) {
+            if (line.equals(CommandWord.QUIT.toString())) {
                 return;
-            }
-            else {
+            } else {
                 TaskItem task = new TaskItem(line);
                 db.writeTaskToFile(task, db.getFileWithTasks(task));
                 System.out.println("The task is added successfully.");

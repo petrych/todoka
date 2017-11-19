@@ -27,12 +27,6 @@ public class TaskDatabase {
     private ArrayList<TaskItem> laterTasks;
     private ArrayList<TaskItem> completedTasks;
 
-    // Mapping a CommandWord to its ArrayList.
-    HashMap<CommandWord, ArrayList<TaskItem>> commandWordToList;
-
-    // Mapping a CommandWord to the corresponding filePath with tasks.
-    HashMap<CommandWord, String> commandWordToFile;
-
     public TaskDatabase() throws IOException, ParseException {
         jsonHandler = new JsonHandler();
 
@@ -49,7 +43,7 @@ public class TaskDatabase {
         this.completedTasks = new ArrayList<>();
         completedTasks = jsonHandler.readTaskItemList(fileCompletedTasks);
 
-        // Create a reader and writer objects for the default filePath.
+        // Create a reader and writer objects for the given file path.
         createFileReader(filePath);
         createFileWriter(filePath);
     }
