@@ -1,4 +1,4 @@
-import javafx.concurrent.Task;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,6 +19,7 @@ public class TaskDatabase {
 
     private FileReader fileReader;
     private FileWriter fileWriter;
+    private JsonHandler jsonHandler;
 
     // Storage for the tasks from the corresponding file.
     private ArrayList<TaskItem> todayTasks;
@@ -32,8 +33,12 @@ public class TaskDatabase {
     // Mapping a CommandWord to the corresponding file with tasks.
     HashMap<CommandWord, String> commandWordToFile;
 
-    public TaskDatabase() throws IOException {
+    public TaskDatabase() throws IOException, ParseException {
+        // The task lists are populated from the corresponding files
         this.todayTasks = new ArrayList<>();
+        jsonHandler = new JsonHandler();
+        todayTasks = jsonHandler.readTaskItemList(fileTodayTasks);
+        // TODO add initialization for other task lists
         this.weekTasks = new ArrayList<>();
         this.laterTasks = new ArrayList<>();
         this.completedTasks = new ArrayList<>();
@@ -103,36 +108,59 @@ public class TaskDatabase {
         }
     }
 
-    public void writeTaskToFile(TaskItem task, String file) throws IOException {
+    public void writeTaskToFile(TaskItem task, String file) throws IOException, ParseException {
+        ArrayList list = addTaskToList(task);
+
         try {
-            fileWriter.write(taskToString(task));
-            fileWriter.write("\n");           // add a line break
-            fileWriter.flush();
+            if (list != null)
+            jsonHandler.saveTaskListToJson(list, file);
         }
         catch(IOException e) {
             System.out.println("Error: Couldn't write to the file. Try again.");
             e.printStackTrace();
         }
-
-        // Add to a corresponding collection only if writing to the file was successful.
-        addTaskToList(task);
     }
 
     // This method is used in the method of writing a task to the corresponding file.
-    public void addTaskToList(TaskItem task) {
+    public ArrayList<TaskItem> addTaskToList(TaskItem task) {
         if (task.isCompleted()) {
             task.setTimePeriod(TimePeriod.COMPLETED);
+            completedTasks.add(task);
+            return completedTasks;
         }
         else {
             if (task.getTimePeriod() == TimePeriod.TODAY) {
                 todayTasks.add(task);
+                return todayTasks;
             }
             if (task.getTimePeriod() == TimePeriod.WEEK) {
                 weekTasks.add(task);
+                return weekTasks;
             }
             if (task.getTimePeriod() == TimePeriod.LATER) {
                 laterTasks.add(task);
+                return laterTasks;
             }
+        }
+        return null;
+    }
+
+    public void showTasksFromFile(String file) throws IOException {
+        int character;
+        fileReader = new FileReader(file);
+        if (fileReader.read() == -1) {
+            System.out.println("The task list is empty. Enter " + CommandWord.CREATE_TASK + " to create a task.");
+        }
+        fileReader = new FileReader(file);
+
+        try {
+            while ((character = fileReader.read())!= -1) {
+                System.out.print((char)character);
+            }
+        }
+        catch (IOException e) {
+            System.out.println("Error: Couldn't read from the file. Try again.");
+            e.printStackTrace();
         }
     }
 
@@ -160,48 +188,23 @@ public class TaskDatabase {
         return taskIndex + 1;
     }
 
-    public ArrayList<TaskItem> getListWithTasks(ArrayList<TaskItem> list) {
-        if (list == todayTasks) {
+    public ArrayList<TaskItem> getListWithTasks(String file) {
+        if (file == fileTodayTasks) {
             return todayTasks;
         }
 
-        if (list == weekTasks) {
+        if (file == fileWeekTasks) {
             return weekTasks;
         }
 
-        if (list == laterTasks) {
+        if (file == fileLaterTasks) {
             return laterTasks;
         }
 
-        if (list == completedTasks) {
+        if (file == fileCompletedTasks) {
             return completedTasks;
         }
 
         return todayTasks;
-    }
-
-    public void showTasksFromFile(String file) throws IOException {
-        int character;
-        fileReader = new FileReader(file);
-        if (fileReader.read() == -1) {
-            System.out.println("The task list is empty. Enter " + CommandWord.CREATE_TASK + " to create a task.");
-        }
-        fileReader = new FileReader(file);
-
-        try {
-            while ((character = fileReader.read())!= -1) {
-                System.out.print((char)character);
-            }
-        }
-        catch (IOException e) {
-            System.out.println("Error: Couldn't read from the file. Try again.");
-            e.printStackTrace();
-        }
-    }
-
-    public static String taskToString(TaskItem task) {
-        return "TODO: " + task.getName() +
-                ", timePeriod is: " + task.getTimePeriod() +
-                ", completed: " + task.isCompleted();
     }
 }

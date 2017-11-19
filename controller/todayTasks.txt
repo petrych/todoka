@@ -1,9 +1,1 @@
-Name: task 1, timePeriod is: TODAY, completed: false
-Name: task 2, timePeriod is: TODAY, completed: false
-TODO: task 3, timePeriod is: TODAY, completed: false
-TODO: task 4, timePeriod is: TODAY, completed: false
-TODO: task 5, timePeriod is: TODAY, completed: false
-TODO: task 6, timePeriod is: TODAY, completed: false
-TODO: task today, timePeriod is: TODAY, completed: false
-TODO: tasksfdsfsdfsd, timePeriod is: TODAY, completed: false
-TODO: sds, timePeriod is: TODAY, completed: false
+[{"timePeriod":"TODAY","taskName":"dad","completed":false,"category":""},{"timePeriod":"TODAY","taskName":"sdfsdf","completed":false,"category":""},{"timePeriod":"TODAY","taskName":"sdfsdf","completed":false,"category":""},{"timePeriod":"TODAY","taskName":"tyu","completed":false,"category":""},{"timePeriod":"TODAY","taskName":"rr","completed":false,"category":""}]

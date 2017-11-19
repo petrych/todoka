@@ -25,8 +25,6 @@ public class ItemInChecklist {
         return this.name;
     }
 
-    // TODO - Do I need to have another constructor with 2 params (name, checked)?
-
     public boolean getChecked() {
         return this.checked;
     }

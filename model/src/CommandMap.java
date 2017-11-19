@@ -27,7 +27,7 @@ public class CommandMap {
     }
 
     public void printCommands() {
-        System.out.println();
+        System.out.println("");
         System.out.println("What would you like to do next? Enter a command:");
         for (CommandWord command : commands.values()) {
             System.out.println(command.toFriendlyString());

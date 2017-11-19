@@ -30,7 +30,6 @@ public class Checklist {
             HashMap.Entry pair = (HashMap.Entry)it.next();
             String itemName = ((ItemInChecklist) pair.getKey()).getName();
 
-            // TODO - How to change printing to returning without quitting the loop? Delete all unnecessary comments after implementation
             System.out.println(itemName + " = " + pair.getValue());
             //return "loop finished"; // return statement finishes the loop :(
         }

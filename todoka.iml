@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="model" />
     <orderEntry type="module" module-name="startup" />
     <orderEntry type="module" module-name="view" />
+    <orderEntry type="library" name="json-simple-1.11" level="project" />
   </component>
 </module>

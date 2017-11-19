@@ -1,20 +1,21 @@
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class ConsoleView {
     private TaskDatabase db;
     private Scanner consoleReader;
-
     private CommandMap commands;
 
-    // todo - rethink and redo the reader and the writer; move some of their functionality to the Controller
-    public ConsoleView() throws IOException {
+    public ConsoleView() throws IOException, ParseException {
         db = new TaskDatabase();
         consoleReader = new Scanner(System.in);
         commands = new CommandMap();
     }
         // Handling the input from the console.
-        public void mainLoop() throws IOException {
+        public void mainLoop() throws IOException, ParseException {
             printGreetingMessage();
             while (true) {
                 commands.printCommands();
@@ -53,7 +54,7 @@ public class ConsoleView {
             }
         }
 
-        private void createTask() throws IOException {
+        private void createTask() throws IOException, ParseException {
             System.out.println("Enter a task name or press 'q' to go back.");
             String line = consoleReader.nextLine();
             if (line.equals(CommandWord.QUIT)) {
