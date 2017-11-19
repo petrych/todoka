@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class.">
+    <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/completedTasks.txt" afterPath="$PROJECT_DIR$/controller/completedTasks.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/laterTasks.txt" afterPath="$PROJECT_DIR$/controller/laterTasks.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/TaskDatabase.java" afterPath="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/todayTasks.txt" afterPath="$PROJECT_DIR$/controller/todayTasks.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/weekTasks.txt" afterPath="$PROJECT_DIR$/controller/weekTasks.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/src/TaskItem.java" afterPath="$PROJECT_DIR$/model/src/TaskItem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/ConsoleView.java" afterPath="$PROJECT_DIR$/view/src/ConsoleView.java" />
     </list>
@@ -27,12 +23,25 @@
       <file leaf-file-name="ConsoleView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="104" column="45" lean-forward="true" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
+            <state relative-caret-position="499">
+              <caret line="164" column="13" lean-forward="true" selection-start-line="164" selection-start-column="13" selection-end-line="164" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6149#6150#0" expanded="true" />
-                <element signature="e#6206#6207#0" expanded="true" />
+                <element signature="e#6775#6776#0" expanded="true" />
+                <element signature="e#6832#6833#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+              <folding>
+                <element signature="e#1551#1552#0" expanded="true" />
+                <element signature="e#1587#1588#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -97,8 +106,8 @@
         <option value="$PROJECT_DIR$/model/src/Checklist.java" />
         <option value="$PROJECT_DIR$/startup/src/Startup.java" />
         <option value="$PROJECT_DIR$/controller/src/JsonHandler.java" />
-        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
         <option value="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
+        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
         <option value="$PROJECT_DIR$/view/src/ConsoleView.java" />
       </list>
     </option>
@@ -451,7 +460,21 @@
       <option name="project" value="LOCAL" />
       <updated>1511090516548</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Refactoring: reading and writing to file now depends on time period, not on the file path.&#10;Removed unused code.&#10;New functionality: editing task name and time period (with moving tasks between lists and files).&#10;In progress: editing task completed status (with moving the task to the Completed list and file).&#10;In progress: find task by name.">
+      <created>1511110151832</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1511110151832</updated>
+    </task>
+    <task id="LOCAL-00016" summary="New functionality: editing the completed status of the task (with moving the task to the Completed list and file).">
+      <created>1511111204647</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1511111204647</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -465,6 +488,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2048" height="1152" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900834" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -474,7 +498,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22613531" sideWeight="0.42123628" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30769232" sideWeight="0.5787637" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30769232" sideWeight="0.5787637" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18707015" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900834" sideWeight="0.49601197" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -566,7 +590,9 @@
     <MESSAGE value="Changed the way tasks from a file are shown in the console." />
     <MESSAGE value="1. Refactored the method for showing tasks from file: now it depends only on the task list and not on the content of the file.&#10;2. Added a method to both clear a task list and erase the corresponding file.&#10;3. Refactored slightly the class TaskDatabase." />
     <MESSAGE value="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class." />
+    <MESSAGE value="Refactoring: reading and writing to file now depends on time period, not on the file path.&#10;Removed unused code.&#10;New functionality: editing task name and time period (with moving tasks between lists and files).&#10;In progress: editing task completed status (with moving the task to the Completed list and file).&#10;In progress: find task by name." />
+    <MESSAGE value="New functionality: editing the completed status of the task (with moving the task to the Completed list and file)." />
+    <option name="LAST_COMMIT_MESSAGE" value="New functionality: editing the completed status of the task (with moving the task to the Completed list and file)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -597,7 +623,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -627,8 +656,8 @@
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6149#6150#0" expanded="true" />
-            <element signature="e#6206#6207#0" expanded="true" />
+            <element signature="e#6775#6776#0" expanded="true" />
+            <element signature="e#6832#6833#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -647,7 +676,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -657,8 +689,8 @@
           <caret line="40" column="32" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6149#6150#0" expanded="true" />
-            <element signature="e#6206#6207#0" expanded="true" />
+            <element signature="e#6775#6776#0" expanded="true" />
+            <element signature="e#6832#6833#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -707,7 +739,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -725,7 +760,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="14" column="25" lean-forward="false" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -743,7 +781,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="722">
           <caret line="40" column="25" lean-forward="false" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -782,7 +823,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
           <caret line="32" column="38" lean-forward="false" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="38" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -800,7 +844,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="28" column="51" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="51" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -829,7 +876,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -847,7 +897,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -855,7 +908,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -969,14 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="57" column="13" lean-forward="false" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/src/CommandWord.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -1005,14 +1053,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding>
+            <element signature="e#1551#1552#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="104" column="45" lean-forward="true" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
+        <state relative-caret-position="499">
+          <caret line="164" column="13" lean-forward="true" selection-start-line="164" selection-start-column="13" selection-end-line="164" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6149#6150#0" expanded="true" />
-            <element signature="e#6206#6207#0" expanded="true" />
+            <element signature="e#6775#6776#0" expanded="true" />
+            <element signature="e#6832#6833#0" expanded="true" />
           </folding>
         </state>
       </provider>

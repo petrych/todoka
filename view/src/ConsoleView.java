@@ -116,7 +116,6 @@ public class ConsoleView {
                 System.out.println("The task is marked as completed and moved to the Completed list.");
 
             }
-
             else if (line.equals("3")) {
                 System.out.println("Enter a new time period: t - today, w - week, l - later, c - completed.");
 
@@ -155,8 +154,15 @@ public class ConsoleView {
                 System.out.println("The time period of the task is changed successfully.");
 
             }
-            // TODO - add changes for "4 - to change the category"
+            else if (line.equals("4")) {
+                System.out.println("Enter a new category name:");
+                line = consoleReader.nextLine();
 
+                task.setCategory(line);
+                db.writeTaskToFile(task.getTimePeriod());
+
+                System.out.println("The category name is changed successfully.");
+            }
         }
 
         private void printGreetingMessage() {
