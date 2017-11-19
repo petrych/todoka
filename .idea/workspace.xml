@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0ebe93e2-c0d6-42d5-a5d5-e17ecee9c256" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/todayTasks.txt" afterPath="$PROJECT_DIR$/controller/todayTasks.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/TaskDatabase.java" afterPath="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/src/TaskItem.java" afterPath="$PROJECT_DIR$/model/src/TaskItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/ConsoleView.java" afterPath="$PROJECT_DIR$/view/src/ConsoleView.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +22,8 @@
       <file leaf-file-name="ConsoleView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="164" column="13" lean-forward="true" selection-start-line="164" selection-start-column="13" selection-end-line="164" selection-end-column="13" />
+            <state relative-caret-position="364">
+              <caret line="65" column="51" lean-forward="true" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6775#6776#0" expanded="true" />
@@ -37,11 +36,11 @@
       <file leaf-file-name="TaskItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state relative-caret-position="294">
+              <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
               <folding>
-                <element signature="e#1551#1552#0" expanded="true" />
-                <element signature="e#1587#1588#0" expanded="true" />
+                <element signature="e#1833#1834#0" expanded="true" />
+                <element signature="e#1869#1870#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -50,8 +49,8 @@
       <file leaf-file-name="TaskDatabase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="37" column="5" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+            <state relative-caret-position="285">
+              <caret line="15" column="60" lean-forward="true" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -106,9 +105,9 @@
         <option value="$PROJECT_DIR$/model/src/Checklist.java" />
         <option value="$PROJECT_DIR$/startup/src/Startup.java" />
         <option value="$PROJECT_DIR$/controller/src/JsonHandler.java" />
-        <option value="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
-        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
         <option value="$PROJECT_DIR$/view/src/ConsoleView.java" />
+        <option value="$PROJECT_DIR$/model/src/TaskItem.java" />
+        <option value="$PROJECT_DIR$/controller/src/TaskDatabase.java" />
       </list>
     </option>
   </component>
@@ -474,7 +473,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511111204647</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="New functionality: editing a task category.">
+      <created>1511111482004</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1511111482004</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -592,7 +598,8 @@
     <MESSAGE value="Refactoring: method for creating task in ConsoleView, removed unnecessary fields in TaskDatabase class." />
     <MESSAGE value="Refactoring: reading and writing to file now depends on time period, not on the file path.&#10;Removed unused code.&#10;New functionality: editing task name and time period (with moving tasks between lists and files).&#10;In progress: editing task completed status (with moving the task to the Completed list and file).&#10;In progress: find task by name." />
     <MESSAGE value="New functionality: editing the completed status of the task (with moving the task to the Completed list and file)." />
-    <option name="LAST_COMMIT_MESSAGE" value="New functionality: editing the completed status of the task (with moving the task to the Completed list and file)." />
+    <MESSAGE value="New functionality: editing a task category." />
+    <option name="LAST_COMMIT_MESSAGE" value="New functionality: editing a task category." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -624,8 +631,8 @@
         <state relative-caret-position="513">
           <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -677,8 +684,8 @@
         <state relative-caret-position="513">
           <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -740,8 +747,8 @@
         <state relative-caret-position="532">
           <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -761,8 +768,8 @@
         <state relative-caret-position="266">
           <caret line="14" column="25" lean-forward="false" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -782,8 +789,8 @@
         <state relative-caret-position="722">
           <caret line="40" column="25" lean-forward="false" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -824,8 +831,8 @@
         <state relative-caret-position="608">
           <caret line="32" column="38" lean-forward="false" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="38" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -845,8 +852,8 @@
         <state relative-caret-position="532">
           <caret line="28" column="51" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="51" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -877,8 +884,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -898,8 +905,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -909,8 +916,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1045,8 +1052,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/src/TaskDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="37" column="5" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+        <state relative-caret-position="285">
+          <caret line="15" column="60" lean-forward="true" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1055,19 +1062,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/src/TaskItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        <state relative-caret-position="294">
+          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
           <folding>
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1833#1834#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/src/ConsoleView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="164" column="13" lean-forward="true" selection-start-line="164" selection-start-column="13" selection-end-line="164" selection-end-column="13" />
+        <state relative-caret-position="364">
+          <caret line="65" column="51" lean-forward="true" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6775#6776#0" expanded="true" />
