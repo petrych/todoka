@@ -1,5 +1,3 @@
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
@@ -16,14 +14,14 @@ public class TaskDatabase {
     public String fileLaterTasks = "/Users/nastya/repos/todoka/controller/laterTasks.txt";
     public String fileCompletedTasks = "/Users/nastya/repos/todoka/controller/completedTasks.txt";
 
-    // Default file for reading and writing.
-    private String file = setDefaultFile();
+    // Default filePath for reading and writing.
+    private String filePath = setDefaultFilePath();
 
     private FileReader fileReader;
     private FileWriter fileWriter;
     private JsonHandler jsonHandler;
 
-    // Storage for the tasks from the corresponding file.
+    // Storage for the tasks from the corresponding filePath.
     private ArrayList<TaskItem> todayTasks;
     private ArrayList<TaskItem> weekTasks;
     private ArrayList<TaskItem> laterTasks;
@@ -32,7 +30,7 @@ public class TaskDatabase {
     // Mapping a CommandWord to its ArrayList.
     HashMap<CommandWord, ArrayList<TaskItem>> commandWordToList;
 
-    // Mapping a CommandWord to the corresponding file with tasks.
+    // Mapping a CommandWord to the corresponding filePath with tasks.
     HashMap<CommandWord, String> commandWordToFile;
 
     public TaskDatabase() throws IOException, ParseException {
@@ -51,31 +49,31 @@ public class TaskDatabase {
         this.completedTasks = new ArrayList<>();
         completedTasks = jsonHandler.readTaskItemList(fileCompletedTasks);
 
-        // Create a reader and writer objects for the default file.
-        createFileReader(file);
-        createFileWriter(file);
+        // Create a reader and writer objects for the default filePath.
+        createFileReader(filePath);
+        createFileWriter(filePath);
     }
 
-    private void createFileReader(String file) throws IOException {
+    private void createFileReader(String filePath) throws IOException {
         try {
-            fileReader = new FileReader(file);
+            fileReader = new FileReader(filePath);
         }
         catch (FileNotFoundException exception) {
-            System.out.println("Unable to open file '" + file + "'.");
+            System.out.println("Unable to open file '" + filePath + "'.");
         }
     }
 
-    private void createFileWriter(String file) throws IOException {
+    private void createFileWriter(String filePath) throws IOException {
         try {
-            fileWriter = new FileWriter(file, true);
+            fileWriter = new FileWriter(filePath, true);
         }
         catch (IOException ex) {
-            System.out.println("Error writing to file '" + file + "'.");
+            System.out.println("Error writing to file '" + filePath + "'.");
         }
     }
 
-    // Set default file for reading and writing. Depends on the default timePeriod value in model/TaskItem.
-    private String setDefaultFile() {
+    // Set default filePath for reading and writing. Depends on the default timePeriod value in model/TaskItem.
+    private String setDefaultFilePath() {
         if (TaskItem.getDefaultTimePeriod() == TimePeriod.TODAY) {
             return fileTodayTasks;
         }
@@ -92,12 +90,12 @@ public class TaskDatabase {
         }
     }
 
-    // Return the default file for reading and writing.
+    // Return the default filePath for reading and writing.
     public String getDefaultFile() {
-        return file;
+        return filePath;
     }
 
-    // Return the right file for the task
+    // Return the right filePath for the task
     public String getFileWithTasks(TaskItem task) {
         if (task.getTimePeriod() == TimePeriod.TODAY) {
             return fileTodayTasks;
@@ -116,12 +114,12 @@ public class TaskDatabase {
         }
     }
 
-    public void writeTaskToFile(TaskItem task, String file) throws IOException, ParseException {
+    public void writeTaskToFile(TaskItem task, String filePath) throws IOException, ParseException {
         ArrayList list = addTaskToList(task);
 
         try {
             if (list != null)
-            jsonHandler.saveTaskListToJson(list, file);
+            jsonHandler.saveTaskListToJson(list, filePath);
         }
         catch(IOException e) {
             System.out.println("Error: Couldn't write to the file. Try again.");
@@ -129,7 +127,7 @@ public class TaskDatabase {
         }
     }
 
-    // This method is used in the method of writing a task to the corresponding file.
+    // This method is used in the method of writing a task to the corresponding filePath.
     public ArrayList<TaskItem> addTaskToList(TaskItem task) {
         if (task.isCompleted()) {
             task.setTimePeriod(TimePeriod.COMPLETED);
@@ -153,24 +151,14 @@ public class TaskDatabase {
         return null;
     }
 
-    public void showTasksFromFile(String filePath) throws IOException {
-        fileReader = new FileReader(filePath);
-        if (fileReader.read() == -1) {
+    public void showTasksFromFile(String filePath) {
+        ArrayList<TaskItem> taskList = getListWithTasks(filePath);
+        if (taskList.isEmpty()) {
             System.out.println("The task list is empty.");
         }
-        fileReader = new FileReader(filePath);
 
-        try {
-            while (fileReader.read() != -1) {
-                // read the task list and return each task as a new line
-                for (TaskItem task : getListWithTasks(filePath)) {
-                    System.out.println(task.taskToString());
-                }
-            }
-        }
-        catch(IOException e) {
-            System.out.println("Error: Couldn't read from the file. Try again.");
-            e.printStackTrace();
+        for (TaskItem task : taskList) {
+            System.out.println(task.taskToString());
         }
     }
 
@@ -198,23 +186,33 @@ public class TaskDatabase {
         return taskIndex + 1;
     }
 
-    public ArrayList<TaskItem> getListWithTasks(String file) {
-        if (file == fileTodayTasks) {
+    public ArrayList<TaskItem> getListWithTasks(String filePath) {
+        if (filePath == fileTodayTasks) {
             return todayTasks;
         }
 
-        if (file == fileWeekTasks) {
+        if (filePath == fileWeekTasks) {
             return weekTasks;
         }
 
-        if (file == fileLaterTasks) {
+        if (filePath == fileLaterTasks) {
             return laterTasks;
         }
 
-        if (file == fileCompletedTasks) {
+        if (filePath == fileCompletedTasks) {
             return completedTasks;
         }
 
         return todayTasks;
+    }
+
+    /**
+     * Empty a task list and erase the content of a given file
+     * @param filePath path to a file which content is to be erased
+     * @throws IOException
+     */
+    public void clearTaskListAndFile(String filePath) throws IOException {
+        getListWithTasks(filePath).clear();
+        new FileWriter(filePath).close();
     }
 }
