@@ -1,9 +1,15 @@
+/**
+ * This class defines that tasks are stored both in the task lists and in the corresponding files
+ * which are located in the app folder.
+ */
+
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskDatabase {
+    // TODO: change filePath to be dependable on the app folder
     // Paths for files of tasks with different time periods.
     public String fileTodayTasks = "/Users/nastya/repos/todoka/controller/todayTasks.txt";
     public String fileWeekTasks = "/Users/nastya/repos/todoka/controller/weekTasks.txt";
@@ -23,7 +29,7 @@ public class TaskDatabase {
     public TaskDatabase() throws IOException, ParseException {
         jsonHandler = new JsonHandler();
 
-        // Populate the task list from the corresponding file
+        // Populate task lists from the corresponding files.
         this.todayTasks = new ArrayList<>();
         todayTasks = jsonHandler.readTaskItemList(fileTodayTasks);
 
@@ -43,6 +49,12 @@ public class TaskDatabase {
         allTaskLists.add(completedTasks);
     }
 
+    /**
+     * Writes task to file using its time period.
+     * @param timePeriod The time period of a task that needs to be written to file.
+     * @throws IOException
+     * @throws ParseException
+     */
     public void writeTaskToFile(TimePeriod timePeriod) throws IOException, ParseException {
         ArrayList<TaskItem> taskList = getListWithTasks(timePeriod);
         try {
@@ -55,6 +67,11 @@ public class TaskDatabase {
         }
     }
 
+    /**
+     * Adds the given task to the corresponding list using a time period of the task.
+     * @param task The task to be added to the corresponding task list.
+     * @return The list of tasks.
+     */
     public ArrayList<TaskItem> addTaskToList(TaskItem task) {
         if (task.isCompleted()) {
             task.setTimePeriod(TimePeriod.COMPLETED);
@@ -78,10 +95,14 @@ public class TaskDatabase {
         return null;
     }
 
-    public void showTasksFromFile(TimePeriod period) {
-        ArrayList<TaskItem> taskList = getListWithTasks(period);
+    /**
+     * Prints the list of the tasks with the given time period.
+     * @param timePeriod The time period of tasks in the list.
+     **/
+    public void showTasksFromFile(TimePeriod timePeriod) {
+        ArrayList<TaskItem> taskList = getListWithTasks(timePeriod);
         if (taskList.isEmpty()) {
-            System.out.println("The required " + period.toString() + "task list is empty.");
+            System.out.println("The required " + timePeriod.toString() + "task list is empty.");
         }
 
         for (TaskItem task : taskList) {
@@ -89,23 +110,34 @@ public class TaskDatabase {
         }
     }
 
-    public ArrayList<TaskItem> getListWithTasks(TimePeriod period) {
-        if (period == TimePeriod.TODAY) {
+    /**
+     * Returns a list of the tasks with the given time period.
+     * @param timePeriod The time period of tasks in the needed list.
+     * @return The the list of tasks with the given time period.
+     **/
+
+    public ArrayList<TaskItem> getListWithTasks(TimePeriod timePeriod) {
+        if (timePeriod == TimePeriod.TODAY) {
             return todayTasks;
         }
-        if (period == TimePeriod.WEEK) {
+        if (timePeriod == TimePeriod.WEEK) {
             return weekTasks;
         }
-        if (period == TimePeriod.LATER) {
+        if (timePeriod == TimePeriod.LATER) {
             return laterTasks;
         }
-        if (period == TimePeriod.COMPLETED) {
+        if (timePeriod == TimePeriod.COMPLETED) {
             return completedTasks;
         }
 
         return todayTasks;
     }
 
+    /**
+     * Returns the path of a file by the given time period.
+     * @param timePeriod The time period of tasks in the needed file.
+     * @return The path of the file containing tasks with the given time period.
+     */
     public String getFileByTimePeriod(TimePeriod timePeriod) {
         if (timePeriod == TimePeriod.TODAY) {
             return fileTodayTasks;
@@ -123,13 +155,12 @@ public class TaskDatabase {
         return fileTodayTasks;
     }
 
-    // TODO: Test if the current implementation works when searching for the "mid part" of the task name
     /**
-     * Return list of the tasks which names start from the given string.
-     * @param str The string to match in the beginning of the task name.
-     * @return list of matching tasks
+     * Returns a list of the tasks which names contain the given string.
+     * @param str The string to match in the task name.
+     * @return The list of matching tasks.
      */
-    public ArrayList<TaskItem> findTaskByName(String str) {
+    public ArrayList<TaskItem> findTasksByName(String str) {
         ArrayList<TaskItem> result = new ArrayList<>();
 
         for (ArrayList list : allTaskLists) {

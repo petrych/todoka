@@ -1,3 +1,7 @@
+/**
+ * This class is responsible for defining command words used in the app.
+ */
+
 public enum CommandWord {
     UNKNOWN("?"),
     QUIT("0"),
@@ -19,7 +23,7 @@ public enum CommandWord {
 
         SHOW_CATEGORY("40");
 
-    // The string value of a commandWord.
+    // The string value of a command word.
     private String commandString;
 
     // Initialize with the corresponding command string.
@@ -52,9 +56,7 @@ public enum CommandWord {
         if (commandString.equals("23")) {
             return "23 - show Completed tasks";
         }
-//        if (commandString.equals("")) {
-//            return "";
-//        }
+
         return "";
     }
 

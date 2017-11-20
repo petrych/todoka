@@ -1,3 +1,12 @@
+/**
+ * IMPORTANT
+ *
+ * This class is responsible for storing the command words defined in the separate class.
+ *
+ * In v.1.0 only the constructor is used, not the methods.
+ * Methods are intended for use in future releases.
+ **/
+
 import java.util.HashMap;
 
 public class CommandMap {

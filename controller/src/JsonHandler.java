@@ -1,3 +1,8 @@
+/**
+ * The class is responsible for converting both a single task item and a task list
+ * into a JSON representation and writing that representation to a given file.
+ */
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,9 +21,17 @@ public class JsonHandler {
         this.parser = new JSONParser();
     }
 
-    public ArrayList<TaskItem> readTaskItemList(String file) throws IOException, ParseException {
-        FileReader fileReader = new FileReader(file);
+    /**
+     * Reads the given file and returns a list of task items.
+     * @param filePath The path of a file to read from.
+     * @return The list of task items.
+     * @throws IOException
+     * @throws ParseException
+     */
+    public ArrayList<TaskItem> readTaskItemList(String filePath) throws IOException, ParseException {
+        FileReader fileReader = new FileReader(filePath);
         JSONArray fileToJson = new JSONArray();
+
         try {
             fileToJson = (JSONArray) parser.parse(fileReader);
         }
@@ -31,6 +44,7 @@ public class JsonHandler {
         }
 
         ArrayList<TaskItem> result = new ArrayList<>();
+
         for (Object taskJson : fileToJson) {
             JSONObject task = (JSONObject) taskJson;
             TaskItem t = new TaskItem((String)task.get("taskName"));
@@ -41,23 +55,26 @@ public class JsonHandler {
     }
 
     /**
-     * Convert a task item to JSON object and add it to the list of tasks.
-     *
-     * @return JSONArray of a given task item
+     * Converts a task item to JSON object, add it to the list of tasks
+     * and write it to the the corresponding file.
      */
     public void saveTaskListToJson(ArrayList<TaskItem> taskList, String filePath) throws IOException {
         JSONArray  jsonTaskArray = new JSONArray();
+
         for (TaskItem task: taskList) {
             JSONObject taskToJson = new JSONObject();
 
             taskToJson.put("taskName", task.getName());
             taskToJson.put("completed", task.isCompleted());
             taskToJson.put("timePeriod", task.getTimePeriod().toString());
+
             if (task.getCategory() == null) {
                 taskToJson.put("category", "");
-            } else {
+            }
+            else {
                 taskToJson.put("category", task.getCategory().toString());
             }
+
             jsonTaskArray.add(taskToJson);
         }
 

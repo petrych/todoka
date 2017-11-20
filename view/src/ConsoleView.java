@@ -1,3 +1,23 @@
+/**
+ * This class is responsible for a console view of the app.
+ *
+ * A user manipulates the app by entering the available commands via a keyboard.
+ *
+ * The user can create a task which is immediately stored in a corresponding
+ * task list (according to the time period of the task)
+ * and written to the corresponding file (also according to the time period).
+ *
+ * Details of the newly created task can be edited:
+ * - change the task name
+ * - set as completed
+ * - change the time period
+ * - change the category
+ *
+ * The user can view a task list (Today, Week, Later, Completed).
+ *
+ * The user can edit any task in any list by entering a piece of its name and then following the instructions.
+ */
+
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -24,6 +44,7 @@ public class ConsoleView {
                 // Process a command entered.
                 try {
                     line = consoleReader.nextLine();
+
                     if (line.equals(CommandWord.CREATE_TASK.toString())) {
                         createTask();
                     }
@@ -41,9 +62,9 @@ public class ConsoleView {
                     }
                     else if (line.equals(CommandWord.EDIT_TASK.toString())) {
 
-                        System.out.println("Enter several first characters of the task name:");
+                        System.out.println("Enter several characters of the task name:");
                         line = consoleReader.nextLine();
-                        ArrayList<TaskItem> matchedTaskList = db.findTaskByName(line);
+                        ArrayList<TaskItem> matchedTaskList = db.findTasksByName(line);
                         TaskItem taskToEdit = null;
 
                         if (matchedTaskList.isEmpty()) {
@@ -59,6 +80,7 @@ public class ConsoleView {
                             for (TaskItem task : matchedTaskList) {
                                 System.out.println(task.taskToString());
                             }
+
                             while (taskToEdit == null) {
                                 System.out.println("To choose task for editing, enter the line number with the task. To go back, enter '" + CommandWord.QUIT.toString() + "'.");
                                 line = consoleReader.nextLine();
@@ -69,8 +91,9 @@ public class ConsoleView {
                                 }
 
                                 int lineNumber = Integer.parseInt(line);
+
                                 if (lineNumber >= 0 && lineNumber <= matchedTaskList.size()) {
-                                    taskToEdit = matchedTaskList.get(lineNumber - 1);   // TODO in progress - use findTask()
+                                    taskToEdit = matchedTaskList.get(lineNumber - 1);
                                     editTask(taskToEdit);
                                 }
                                 else {
@@ -94,6 +117,12 @@ public class ConsoleView {
             }
         }
 
+    /**
+     * Creates a task by reading the user input for the task name.
+     * @return created task.
+     * @throws IOException
+     * @throws ParseException
+     */
         private TaskItem createTask() throws IOException, ParseException {
             System.out.println("Enter a task name or exit to the main menu by pressing '" + CommandWord.QUIT + "'.");
             String line = consoleReader.nextLine();
@@ -119,6 +148,14 @@ public class ConsoleView {
             return task;
         }
 
+    /**
+     * Edits the given task by reading the user input for a new task name or its time period
+     * or its category or marking the task as completed.
+     * Also moves the task to the corresponding task list and file if the time period or completed status is changed.
+     * @param task The task to be edited.
+     * @throws IOException
+     * @throws ParseException
+     */
         private void editTask(TaskItem task) throws IOException, ParseException {
             System.out.println("You've chosen to edit the following task:");
             System.out.println(task.taskToString() + "\n");
@@ -147,7 +184,7 @@ public class ConsoleView {
                         " or any other key to return back");
                 line = consoleReader.nextLine();
 
-                // Go back when user presses any key except 'y'.
+                // Go back when user enters any symbol except 'y'.
                 if (!line.equals("y")) {
                     System.out.println("");
                     return;
@@ -167,7 +204,6 @@ public class ConsoleView {
                 db.writeTaskToFile(TimePeriod.COMPLETED);
 
                 System.out.println("The task is marked as completed and moved to the Completed list.");
-
             }
             else if (line.equals("3")) {
                 System.out.println("Enter a new time period: t - today, w - week, l - later, c - completed.");
@@ -209,11 +245,17 @@ public class ConsoleView {
             }
         }
 
-        private void printGreetingMessage() {
+    /**
+     * Prints a greeting message.
+     */
+    private void printGreetingMessage() {
             System.out.println("TODO-ka 0.1");
         }
 
-        private void printByeMessage() {
+    /**
+     * Prints a bye message.
+     */
+    private void printByeMessage() {
             System.out.println();
             System.out.println("Bye! See you later :)");
         }
