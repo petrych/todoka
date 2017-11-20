@@ -23,7 +23,6 @@ public class JsonHandler {
             fileToJson = (JSONArray) parser.parse(fileReader);
         }
         catch (ParseException e) {
-            // TODO - make sure an empty text file contains an empty JSONArray and not just no symbols
             //System.out.println("The task list is empty.");
         }
         finally {

@@ -1,6 +1,5 @@
 import org.json.simple.parser.ParseException;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,16 +12,18 @@ public class TaskDatabase {
 
     private JsonHandler jsonHandler;
 
-    // Storage for the tasks from the corresponding filePath.
+    // Storage for the tasks from the corresponding file.
     private ArrayList<TaskItem> todayTasks;
     private ArrayList<TaskItem> weekTasks;
     private ArrayList<TaskItem> laterTasks;
     private ArrayList<TaskItem> completedTasks;
 
+    private ArrayList<ArrayList<TaskItem>> allTaskLists;
+
     public TaskDatabase() throws IOException, ParseException {
         jsonHandler = new JsonHandler();
 
-        // Populate the task lists from the corresponding files
+        // Populate the task list from the corresponding file
         this.todayTasks = new ArrayList<>();
         todayTasks = jsonHandler.readTaskItemList(fileTodayTasks);
 
@@ -35,6 +36,11 @@ public class TaskDatabase {
         this.completedTasks = new ArrayList<>();
         completedTasks = jsonHandler.readTaskItemList(fileCompletedTasks);
 
+        this.allTaskLists = new ArrayList<>();
+        allTaskLists.add(todayTasks);
+        allTaskLists.add(weekTasks);
+        allTaskLists.add(laterTasks);
+        allTaskLists.add(completedTasks);
     }
 
     public void writeTaskToFile(TimePeriod timePeriod) throws IOException, ParseException {
@@ -49,7 +55,6 @@ public class TaskDatabase {
         }
     }
 
-    // This method is used in the method of writing a task to the corresponding filePath.
     public ArrayList<TaskItem> addTaskToList(TaskItem task) {
         if (task.isCompleted()) {
             task.setTimePeriod(TimePeriod.COMPLETED);
@@ -76,7 +81,7 @@ public class TaskDatabase {
     public void showTasksFromFile(TimePeriod period) {
         ArrayList<TaskItem> taskList = getListWithTasks(period);
         if (taskList.isEmpty()) {
-            System.out.println("The task list is empty.");
+            System.out.println("The required " + period.toString() + "task list is empty.");
         }
 
         for (TaskItem task : taskList) {
@@ -88,36 +93,13 @@ public class TaskDatabase {
         if (period == TimePeriod.TODAY) {
             return todayTasks;
         }
-
         if (period == TimePeriod.WEEK) {
             return weekTasks;
         }
-
         if (period == TimePeriod.LATER) {
             return laterTasks;
         }
-
         if (period == TimePeriod.COMPLETED) {
-            return completedTasks;
-        }
-
-        return todayTasks;
-    }
-
-    public ArrayList<TaskItem> getListWithTasks(TaskItem task) {
-        if (todayTasks.contains(task)) {
-            return todayTasks;
-        }
-
-        if (weekTasks.contains(task)) {
-            return weekTasks;
-        }
-
-        if (laterTasks.contains(task)) {
-            return laterTasks;
-        }
-
-        if (completedTasks.contains(task)) {
             return completedTasks;
         }
 
@@ -141,26 +123,24 @@ public class TaskDatabase {
         return fileTodayTasks;
     }
 
-    // TODO - in progress. Finding task name
-    public TaskItem findTaskByName(String str, ArrayList<TaskItem> taskList) {
-        TaskItem result = null;
-        boolean taskFound = false;
+    // TODO: Test if the current implementation works when searching for the "mid part" of the task name
+    /**
+     * Return list of the tasks which names start from the given string.
+     * @param str The string to match in the beginning of the task name.
+     * @return list of matching tasks
+     */
+    public ArrayList<TaskItem> findTaskByName(String str) {
+        ArrayList<TaskItem> result = new ArrayList<>();
 
-        while (!taskFound) {
-            for (TaskItem task : taskList) {
-                if (task.getName().startsWith(str)) {
-                    result = task;
-                    taskFound = true;
+        for (ArrayList list : allTaskLists) {
+            for (Object taskObj : list) {
+                TaskItem task = (TaskItem) taskObj;
+                if (task.getName().contains(str)) {
+                    result.add(task);
                 }
             }
         }
 
         return result;
-    }
-
-    // TODO - add functionality: "remove task"
-    public void removeTask(TaskItem taskToRemove) {
-        // ???
-        System.out.println("The task is removed.");
     }
 }
