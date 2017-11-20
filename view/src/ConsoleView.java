@@ -82,7 +82,8 @@ public class ConsoleView {
                             }
 
                             while (taskToEdit == null) {
-                                System.out.println("To choose task for editing, enter the line number with the task. To go back, enter '" + CommandWord.QUIT.toString() + "'.");
+                                System.out.println("\n" + "To choose task for editing, enter the line number with the task. " +
+                                        "To go back, enter '" + CommandWord.QUIT.toString() + "'.");
                                 line = consoleReader.nextLine();
 
                                 // Go back to main menu when the user enters the quit command.
@@ -124,7 +125,7 @@ public class ConsoleView {
      * @throws ParseException
      */
         private TaskItem createTask() throws IOException, ParseException {
-            System.out.println("Enter a task name or exit to the main menu by pressing '" + CommandWord.QUIT + "'.");
+            System.out.println("Enter a task name or exit to the main menu by entering '" + CommandWord.QUIT + "'.");
             String line = consoleReader.nextLine();
 
             // Go back when the user enters the quit command.
@@ -136,9 +137,9 @@ public class ConsoleView {
 
             db.addTaskToList(task);
             db.writeTaskToFile(task.getTimePeriod());
-            System.out.println("The task is added successfully. " + task.taskToString() + ".");
+            System.out.println("\n" + "The task is added successfully. " + task.taskToString() + ".");
 
-            System.out.println("To edit this task, press '" + CommandWord.EDIT_TASK + "'.");
+            System.out.println("To edit this task, enter '" + CommandWord.EDIT_TASK + "'.");
             line = consoleReader.nextLine();
 
             if (line.equals(CommandWord.EDIT_TASK.toString())) {
@@ -157,9 +158,9 @@ public class ConsoleView {
      * @throws ParseException
      */
         private void editTask(TaskItem task) throws IOException, ParseException {
-            System.out.println("You've chosen to edit the following task:");
-            System.out.println(task.taskToString() + "\n");
-            System.out.println("Enter 1 - to change the task name, 2 - to mark the task as completed,");
+            System.out.println("\n" + "You've chosen to edit the following task:");
+            System.out.println(task.taskToString());
+            System.out.println("\n" + "Enter 1 - to change the task name, 2 - to mark the task as completed,");
             System.out.println("3 - to change the time period, 4 - to change the category.");
             System.out.println("exit to the main menu by pressing '" + CommandWord.QUIT + "'.");
             String line = consoleReader.nextLine();
@@ -177,7 +178,7 @@ public class ConsoleView {
                 task.changeName(line);
                 db.writeTaskToFile(task.getTimePeriod());
 
-                System.out.println("The task name is changed successfully.");
+                System.out.println("The task name is changed successfully."+ "\n");
             }
             else if (line.equals("2")) {
                 System.out.println("Enter 'y' - to mark the task as completed" +
@@ -206,7 +207,8 @@ public class ConsoleView {
                 System.out.println("The task is marked as completed and moved to the Completed list.");
             }
             else if (line.equals("3")) {
-                System.out.println("Enter a new time period: t - today, w - week, l - later, c - completed.");
+                System.out.println("Enter a new time period:"+ "\n" +
+                        "t - today, w - week, l - later, c - completed.");
 
                 line = consoleReader.nextLine();
                 TimePeriod oldTimePeriod = task.getTimePeriod();
@@ -238,7 +240,7 @@ public class ConsoleView {
                 task.setCategory(line);
                 db.writeTaskToFile(task.getTimePeriod());
 
-                System.out.println("The category of the task is changed successfully.");
+                System.out.println("The category of the task is changed successfully."+ "\n");
             }
             else {
                 System.out.println("Cannot recognize the command. Please reenter.");

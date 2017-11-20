@@ -1,20 +1,26 @@
 /**
  * This class defines that tasks are stored both in the task lists and in the corresponding files
- * which are located in the app folder.
+ * which are located in the root of the app folder.
  */
 
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class TaskDatabase {
-    // TODO: change filePath to be dependable on the app folder
+    // Get the absolute file path to the app folder 'todoka'.
+    Path appDir = Paths.get("...").toAbsolutePath();
+    String appDirToString = appDir.toString();
+    String appPathAbsolute = appDirToString.substring(0, appDirToString.length() - 3);
+
     // Paths for files of tasks with different time periods.
-    public String fileTodayTasks = "/Users/nastya/repos/todoka/controller/todayTasks.txt";
-    public String fileWeekTasks = "/Users/nastya/repos/todoka/controller/weekTasks.txt";
-    public String fileLaterTasks = "/Users/nastya/repos/todoka/controller/laterTasks.txt";
-    public String fileCompletedTasks = "/Users/nastya/repos/todoka/controller/completedTasks.txt";
+    public String fileTodayTasks = appPathAbsolute + "todayTasks.txt";
+    public String fileWeekTasks = appPathAbsolute + "weekTasks.txt";
+    public String fileLaterTasks = appPathAbsolute + "laterTasks.txt";
+    public String fileCompletedTasks = appPathAbsolute + "completedTasks.txt";
 
     private JsonHandler jsonHandler;
 
@@ -102,10 +108,11 @@ public class TaskDatabase {
     public void showTasksFromFile(TimePeriod timePeriod) {
         ArrayList<TaskItem> taskList = getListWithTasks(timePeriod);
         if (taskList.isEmpty()) {
-            System.out.println("The required " + timePeriod.toString() + "task list is empty.");
+            System.out.println("The required " + timePeriod.toString() + " task list is empty.");
         }
 
         for (TaskItem task : taskList) {
+            System.out.println("Tasks in the " + timePeriod.toString() + " task list:");
             System.out.println(task.taskToString());
         }
     }
