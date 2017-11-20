@@ -38,9 +38,21 @@ public class CommandMap {
     public void printCommands() {
         System.out.println("");
         System.out.println("What would you like to do next? Enter a command:");
-        for (CommandWord command : commands.values()) {
-            System.out.println(command.toFriendlyString());
-        }
-        System.out.println();
+        System.out.println(getCommandsAsString());
+    }
+
+    /**
+     * Returns available commands as one string
+     * @return Available commands on separate lines
+     */
+    public String getCommandsAsString() {
+        return CommandWord.QUIT.toString() + " - quit" + "\n" +
+                CommandWord.CREATE_TASK.toString() + " - create new task" + "\n" +
+                CommandWord.EDIT_TASK.toString() + " - edit task" + "\n" +
+                CommandWord.REMOVE_TASK.toString() + " - remove task" + "\n" +
+                CommandWord.SHOW_TODAY_TASKS.toString() + " - show Today tasks" + "\n" +
+                CommandWord.SHOW_WEEK_TASKS.toString() + " - show Week tasks" + "\n" +
+                CommandWord.SHOW_LATER_TASKS.toString() + " - show Later tasks" + "\n" +
+                CommandWord.SHOW_COMPLETED_TASKS.toString() + " - show Completed tasks";
     }
 }

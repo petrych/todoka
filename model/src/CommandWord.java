@@ -1,3 +1,5 @@
+import com.sun.org.apache.regexp.internal.RE;
+
 /**
  * This class is responsible for defining command words used in the app.
  */
@@ -31,34 +33,7 @@ public enum CommandWord {
         this.commandString = commandString;
     }
 
-    public String toFriendlyString() {
-        if (commandString.equals("0")) {
-            return "0 - quit";
-        }
-        if (commandString.equals("10")) {
-            return "10 - create new task";
-        }
-        if (commandString.equals("11")) {
-            return "11 - edit task";
-        }
-        if (commandString.equals("12")) {
-            return "12 - remove task";
-        }
-        if (commandString.equals("20")) {
-            return "20 - show Today tasks";
-        }
-        if (commandString.equals("21")) {
-            return "21 - show Week tasks";
-        }
-        if (commandString.equals("22")) {
-            return "22 - show Later tasks";
-        }
-        if (commandString.equals("23")) {
-            return "23 - show Completed tasks";
-        }
 
-        return "";
-    }
 
     public String toString(){
         return commandString;
