@@ -251,7 +251,7 @@ public class ConsoleView {
      * Prints a greeting message.
      */
     private void printGreetingMessage() {
-            System.out.println("TODO-ka 0.1");
+            System.out.println("TODO-ka 1.0");
         }
 
     /**
