@@ -1,7 +1,7 @@
 /**
  * IMPORTANT
  *
- * This class is responsible for storing the command words defined in the separate class.
+ * This class is responsible for storing and printing the command words defined in the separate class.
  *
  * In v.1.0 only the constructor is used, not the methods.
  * Methods are intended for use in future releases.
@@ -37,7 +37,7 @@ public class CommandMap {
 
     public void printCommands() {
         System.out.println("");
-        System.out.println("What would you like to do next? Enter a command:");
+        System.out.println("What would you like to do? Enter a command:");
         System.out.println(getCommandsAsString());
     }
 
@@ -48,8 +48,7 @@ public class CommandMap {
     public String getCommandsAsString() {
         return CommandWord.QUIT.toString() + " - quit" + "\n" +
                 CommandWord.CREATE_TASK.toString() + " - create new task" + "\n" +
-                CommandWord.EDIT_TASK.toString() + " - edit task" + "\n" +
-                CommandWord.REMOVE_TASK.toString() + " - remove task" + "\n" +
+                CommandWord.EDIT_TASK.toString() + " - edit task (change name, time period, category and mark as completed)" + "\n" +
                 CommandWord.SHOW_TODAY_TASKS.toString() + " - show Today tasks" + "\n" +
                 CommandWord.SHOW_WEEK_TASKS.toString() + " - show Week tasks" + "\n" +
                 CommandWord.SHOW_LATER_TASKS.toString() + " - show Later tasks" + "\n" +

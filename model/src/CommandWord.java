@@ -1,7 +1,8 @@
-import com.sun.org.apache.regexp.internal.RE;
-
 /**
  * This class is responsible for defining command words used in the app.
+ *
+ * Note: not all command words are used in v.1.0.
+ * To see which are in use, see the output of getCommandsAsString() in CommandWord class.
  */
 
 public enum CommandWord {
