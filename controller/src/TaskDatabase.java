@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 public class TaskDatabase {
     // Get the absolute file path to the app folder 'todoka'.
-    Path appDir = Paths.get("...").toAbsolutePath();
-    String appDirToString = appDir.toString();
-    String appPathAbsolute = appDirToString.substring(0, appDirToString.length() - 3);
+    String appPathAbsolute = getAppDir();
 
     // Paths for files of tasks with different time periods.
     public String fileTodayTasks = appPathAbsolute + "todayTasks.txt";
@@ -53,6 +51,14 @@ public class TaskDatabase {
         allTaskLists.add(weekTasks);
         allTaskLists.add(laterTasks);
         allTaskLists.add(completedTasks);
+    }
+
+    private String getAppDir() {
+        Path appDir = Paths.get("...").toAbsolutePath();
+        String appDirToString = appDir.toString();
+        String appPathAbsolute = appDirToString.substring(0, appDirToString.length() - 3);
+
+        return appPathAbsolute;
     }
 
     /**
