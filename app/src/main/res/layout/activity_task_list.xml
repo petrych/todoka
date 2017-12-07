@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        >
+
+        <TextView
+            android:id="@+id/today_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/today_task_list_title"
+            android:textSize="30sp"
+            />
+
+        # Container for a list of tasks
+        <ListView
+            android:id="@+id/today_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/week_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/week_task_list_title"
+            android:textSize="30sp"
+            />
+
+        # Container for a list of tasks
+        <ListView
+            android:id="@+id/week_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/later_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/later_task_list_title"
+            android:textSize="30sp"
+            />
+
+        # Container for a list of tasks
+        <ListView
+            android:id="@+id/later_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,16 @@
+<resources>
+
+    # Task creation
+
+    <string name="app_name">TODOka</string>
+    <string name="add_task_title">Add new task</string>
+    <string name="task_name">Name</string>
+    <string name="add_category">Add category</string>
+    <string name="completed_title">Completed</string>
+
+    # Task Lists
+    <string name="today_task_list_title">Today</string>
+    <string name="week_task_list_title">Week</string>
+    <string name="later_task_list_title">Later</string>
+
+</resources>
