@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -11,6 +13,7 @@
         android:layout_centerHorizontal="true"
         >
 
+        # Container for TODAY tasks
         <TextView
             android:id="@+id/today_task_list_title"
             android:layout_width="match_parent"
@@ -19,13 +22,16 @@
             android:textSize="30sp"
             />
 
-        # Container for a list of tasks
         <ListView
             android:id="@+id/today_task_list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
             />
 
+        # Container for WEEK tasks
         <TextView
             android:id="@+id/week_task_list_title"
             android:layout_width="match_parent"
@@ -34,13 +40,17 @@
             android:textSize="30sp"
             />
 
-        # Container for a list of tasks
+
         <ListView
             android:id="@+id/week_task_list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
             />
 
+        # Container for LATER tasks
         <TextView
             android:id="@+id/later_task_list_title"
             android:layout_width="match_parent"
@@ -49,11 +59,13 @@
             android:textSize="30sp"
             />
 
-        # Container for a list of tasks
         <ListView
             android:id="@+id/later_task_list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
             />
 
 
