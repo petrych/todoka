@@ -1,5 +1,10 @@
 package petrych.todoka.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.sql.Time;
+
 /**
  * A task consists of a name (text field) and a completed status, time period and a category.
  * A task can be created using a task name.
@@ -10,21 +15,19 @@ package petrych.todoka.model;
  */
 
 
-public class TaskItem {
+public class TaskItem implements Parcelable {
 
     private String taskName; // text field of a task
     private boolean completed;
 
     private TimePeriod timePeriod;
     private String category;
-    private String deadline;
 
     public TaskItem(String taskName) {
         this.taskName = taskName;
         this.completed = false;
         this.timePeriod = TimePeriod.TODAY;    // Default time period.
         this.category = null;
-        this.deadline = null;
     }
 
     public TaskItem(String taskName, TimePeriod timePeriod) {
@@ -40,6 +43,37 @@ public class TaskItem {
         this.timePeriod = timePeriod;
         this.category = category;
     }
+
+    protected TaskItem(Parcel in) {
+        this.taskName = in.readString();
+        this.completed = in.readByte() != 0;
+        this.timePeriod = TimePeriod.TODAY;
+        this.category = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(taskName);
+        dest.writeInt(completed ? 1 : 0);
+        dest.writeString(category);
+    }
+
+    public static final Creator<TaskItem> CREATOR = new Creator<TaskItem>() {
+        @Override
+        public TaskItem createFromParcel(Parcel in) {
+            return new TaskItem(in);
+        }
+
+        @Override
+        public TaskItem[] newArray(int size) {
+            return new TaskItem[size];
+        }
+    };
 
     public String taskToString() {
         String str = "Task name: " + this.getName() +
@@ -106,9 +140,5 @@ public class TaskItem {
 
     public void setCompleted() {
         this.completed = true;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
     }
 }

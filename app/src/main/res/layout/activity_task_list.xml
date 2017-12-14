@@ -65,7 +65,7 @@
         <ImageButton
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:id="@+id/add_task_button"
+            android:id="@+id/plus_button"
             android:background="@drawable/circle"
             android:src="@drawable/ic_add_white_36dp"
             android:elevation="10dp"

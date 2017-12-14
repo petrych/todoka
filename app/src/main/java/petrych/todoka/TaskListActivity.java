@@ -1,12 +1,12 @@
 package petrych.todoka;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,15 @@ import petrych.todoka.model.TimePeriod;
 
 public class TaskListActivity extends AppCompatActivity {
 
+    static final int PICK_CONTACT_REQUEST = 1;  // The request code
+
     private ListView todayTaskListView;
     private ListView weekTaskListView;
     private ListView laterTaskListView;
 
-    private ImageButton addTaskButton;
+    private ImageButton plusButton;
 
-    private TaskDatabase db;
+    public TaskDatabase db;
 
     private ArrayList<TaskItem> todayTasks;
     private ArrayList<TaskItem> weekTasks;
@@ -38,16 +40,6 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        addTaskButton = (ImageButton) findViewById(R.id.add_task_button);
-
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addTask = new Intent(TaskListActivity.this, TaskActivity.class);
-                startActivity(addTask);
-            }
-        });
-
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
         weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
         laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
@@ -60,6 +52,39 @@ public class TaskListActivity extends AppCompatActivity {
         setAdapterForTaskList(todayTasks, todayTaskListView);
         setAdapterForTaskList(weekTasks, weekTaskListView);
         setAdapterForTaskList(laterTasks, laterTaskListView);
+
+        plusButton = (ImageButton) findViewById(R.id.plus_button);
+
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addTask = new Intent(TaskListActivity.this, TaskActivity.class);
+
+                //Add content to intent
+                addTask.putExtra("db", db);
+
+                startActivityForResult(addTask, PICK_CONTACT_REQUEST);
+            }
+        });
+    }
+
+    // todo - redraw the screen after adding new tasks
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (PICK_CONTACT_REQUEST) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    db = bundle.getParcelable("db");
+
+                    this.todayTasks = db.getListWithTasks(TimePeriod.TODAY);
+                    this.weekTasks = db.getListWithTasks(TimePeriod.WEEK);
+                    this.laterTasks = db.getListWithTasks(TimePeriod.LATER);
+                }
+                break;
+            }
+        }
     }
 
     private void setAdapterForTaskList(ArrayList<TaskItem> taskList, ListView listView) {

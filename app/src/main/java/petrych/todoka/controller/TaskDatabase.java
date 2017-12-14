@@ -1,5 +1,8 @@
 package petrych.todoka.controller;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 import petrych.todoka.model.TaskItem;
@@ -9,7 +12,7 @@ import petrych.todoka.model.TimePeriod;
  * This class defines that tasks are stored in the task lists.
  */
 
-public class TaskDatabase {
+public class TaskDatabase implements Parcelable {
 
     // Storage for the tasks in the corresponding list.
     private ArrayList<TaskItem> todayTasks;
@@ -47,6 +50,46 @@ public class TaskDatabase {
         allTaskLists.add(laterTasks);
         allTaskLists.add(completedTasks);
     }
+
+    protected TaskDatabase(Parcel in) {
+        // read list by using TaskItem.CREATOR
+        this.todayTasks = new ArrayList<>();
+        in.readTypedList(todayTasks, TaskItem.CREATOR);
+
+        this.weekTasks = new ArrayList<>();
+        in.readTypedList(weekTasks, TaskItem.CREATOR);
+
+        this.laterTasks = new ArrayList<>();
+        in.readTypedList(laterTasks, TaskItem.CREATOR);
+
+        this.completedTasks = new ArrayList<>();
+        in.readTypedList(completedTasks, TaskItem.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(todayTasks);
+        dest.writeTypedList(weekTasks);
+        dest.writeTypedList(laterTasks);
+        dest.writeTypedList(completedTasks);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<TaskDatabase> CREATOR = new Creator<TaskDatabase>() {
+        @Override
+        public TaskDatabase createFromParcel(Parcel in) {
+            return new TaskDatabase(in);
+        }
+
+        @Override
+        public TaskDatabase[] newArray(int size) {
+            return new TaskDatabase[size];
+        }
+    };
 
     public TaskItem createTask(String taskName) {
         TaskItem task = new TaskItem(taskName);
