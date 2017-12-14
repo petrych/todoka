@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        >
+
+        # Container for TODAY tasks
+        <TextView
+            android:id="@+id/today_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/today_task_list_title"
+            android:textSize="30sp"
+            />
+
+        <ListView
+            android:id="@+id/today_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        # Container for WEEK tasks
+        <TextView
+            android:id="@+id/week_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/week_task_list_title"
+            android:textSize="30sp"
+            />
+
+
+        <ListView
+            android:id="@+id/week_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        # Container for LATER tasks
+        <TextView
+            android:id="@+id/later_task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/later_task_list_title"
+            android:textSize="30sp"
+            />
+
+        <ListView
+            android:id="@+id/later_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/plus_button"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_add_white_36dp"
+            android:elevation="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="310dp"
+            />
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
