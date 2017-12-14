@@ -7,6 +7,7 @@
     <string name="task_name">Name</string>
     <string name="add_category">Add category</string>
     <string name="completed_title">Completed</string>
+    <string name="add_task">Add task</string>
 
     # Task Lists
     <string name="today_task_list_title">Today</string>

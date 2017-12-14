@@ -48,6 +48,11 @@ public class TaskDatabase {
         allTaskLists.add(completedTasks);
     }
 
+    public TaskItem createTask(String taskName) {
+        TaskItem task = new TaskItem(taskName);
+        return task;
+    }
+
     /**
      * Adds the given task to the corresponding list using a time period of the task.
      * @param task The task to be added to the corresponding task list.
