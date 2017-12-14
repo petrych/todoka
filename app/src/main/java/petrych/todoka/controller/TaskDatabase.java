@@ -25,24 +25,9 @@ public class TaskDatabase implements Parcelable {
     // TODO - make connections with Firebase
     public TaskDatabase() {
         this.todayTasks = new ArrayList<>();
-        todayTasks.add(new TaskItem("Task 1"));
-        todayTasks.add(new TaskItem("Task 2"));
-        todayTasks.add(new TaskItem("Task 3"));
-
         this.weekTasks = new ArrayList<>();
-        weekTasks.add(new TaskItem("Task 4"));
-        weekTasks.add(new TaskItem("Task 5"));
-        weekTasks.add(new TaskItem("Task 6"));
-
         this.laterTasks = new ArrayList<>();
-        laterTasks.add(new TaskItem("Task 7"));
-        laterTasks.add(new TaskItem("Task 8"));
-        laterTasks.add(new TaskItem("Task 9"));
-
         this.completedTasks = new ArrayList<>();
-        completedTasks.add(new TaskItem("Task 10"));
-        completedTasks.add(new TaskItem("Task 11"));
-        completedTasks.add(new TaskItem("Task 12"));
 
         this.allTaskLists = new ArrayList<>();
         allTaskLists.add(todayTasks);
@@ -51,6 +36,11 @@ public class TaskDatabase implements Parcelable {
         allTaskLists.add(completedTasks);
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @param in
+     */
     protected TaskDatabase(Parcel in) {
         // read list by using TaskItem.CREATOR
         this.todayTasks = new ArrayList<>();
@@ -66,6 +56,12 @@ public class TaskDatabase implements Parcelable {
         in.readTypedList(completedTasks, TaskItem.CREATOR);
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(todayTasks);
@@ -74,11 +70,20 @@ public class TaskDatabase implements Parcelable {
         dest.writeTypedList(completedTasks);
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     */
     public static final Creator<TaskDatabase> CREATOR = new Creator<TaskDatabase>() {
         @Override
         public TaskDatabase createFromParcel(Parcel in) {
@@ -91,8 +96,20 @@ public class TaskDatabase implements Parcelable {
         }
     };
 
+    /**
+     * Creates a new task with the given task name,
+     * even if the task name is empty.
+     * @param taskName
+     * @return
+     */
     public TaskItem createTask(String taskName) {
-        TaskItem task = new TaskItem(taskName);
+        TaskItem task;
+        if (taskName.isEmpty()) {
+            task = new TaskItem("<?>");
+        }
+        else {
+            task = new TaskItem(taskName);
+        }
         return task;
     }
 

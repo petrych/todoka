@@ -3,8 +3,6 @@ package petrych.todoka.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Time;
-
 /**
  * A task consists of a name (text field) and a completed status, time period and a category.
  * A task can be created using a task name.
@@ -44,6 +42,11 @@ public class TaskItem implements Parcelable {
         this.category = category;
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @param in
+     */
     protected TaskItem(Parcel in) {
         this.taskName = in.readString();
         this.completed = in.readByte() != 0;
@@ -51,11 +54,22 @@ public class TaskItem implements Parcelable {
         this.category = in.readString();
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(taskName);
@@ -63,6 +77,10 @@ public class TaskItem implements Parcelable {
         dest.writeString(category);
     }
 
+    /**
+     * This method is a part of the implementation of Parcelable interface
+     * which makes the data transferrable between activities.
+     */
     public static final Creator<TaskItem> CREATOR = new Creator<TaskItem>() {
         @Override
         public TaskItem createFromParcel(Parcel in) {
