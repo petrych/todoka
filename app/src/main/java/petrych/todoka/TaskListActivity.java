@@ -5,37 +5,57 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import petrych.todoka.controller.TaskDatabase;
 import petrych.todoka.controller.TaskItemAdapter;
 import petrych.todoka.model.TaskItem;
+import petrych.todoka.model.TimePeriod;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    private ListView todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
-    private ListView weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
-    private ListView laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
+    private ListView todayTaskListView;
+    private ListView weekTaskListView;
+    private ListView laterTaskListView;
 
-    private ArrayList<TaskItem> tasks;
+    private TaskDatabase db;
+
+    private ArrayList<TaskItem> todayTasks;
+    private ArrayList<TaskItem> weekTasks;
+    private ArrayList<TaskItem> laterTasks;
+    private ArrayList<TaskItem> completedTasks;
+
+    private ArrayList<List<TaskItem>> allTaskLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
+        todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
+        weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
+        laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
 
-        // Construct the data source
-        tasks = new ArrayList<>();
-        tasks.add(new TaskItem("Task 1"));
-        tasks.add(new TaskItem("Task 2"));
-        tasks.add(new TaskItem("Task 3"));
+        this.db = new TaskDatabase();
+        this.todayTasks = db.getListWithTasks(TimePeriod.TODAY);
+        this.weekTasks = db.getListWithTasks(TimePeriod.WEEK);
+        this.laterTasks = db.getListWithTasks(TimePeriod.LATER);
 
-        // Create the adapter to convert the array to views
-        TaskItemAdapter adapter = new TaskItemAdapter(this, tasks);
+        setAdapterForTaskList(todayTasks, todayTaskListView);
+        setAdapterForTaskList(weekTasks, weekTaskListView);
+        setAdapterForTaskList(laterTasks, laterTaskListView);
+    }
+
+    private void setAdapterForTaskList(ArrayList<TaskItem> taskList, ListView listView) {
+
+        // Create the adapter to convert list to view
+        TaskItemAdapter adapter = new TaskItemAdapter(this, taskList);
 
         // Attach the adapter to a ListView
-        todayTaskListView.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
         // Add items to adapter
-        adapter.addAll(tasks);
+        adapter.addAll(taskList);
+
     }
 }
