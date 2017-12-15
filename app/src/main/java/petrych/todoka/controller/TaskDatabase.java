@@ -3,6 +3,7 @@ package petrych.todoka.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 import petrych.todoka.model.TaskItem;
@@ -102,14 +103,33 @@ public class TaskDatabase implements Parcelable {
      * @param taskName
      * @return
      */
-    public TaskItem createTask(String taskName) {
-        TaskItem task;
+    public TaskItem createTask(String taskName, TimePeriod timePeriod, String category) {
+        TaskItem task = new TaskItem("");
+
+        // Check the task name
         if (taskName.isEmpty()) {
-            task = new TaskItem("<?>");
+            task.changeName("<?>");
         }
         else {
-            task = new TaskItem(taskName);
+            task.changeName(taskName);
         }
+
+        // No check for time period is needed, because it is always available
+        task.setTimePeriod(timePeriod);
+
+        // Check the category
+        if (category.isEmpty()) {
+            task.setCategory("");
+        }
+        else {
+            task.setCategory(category);
+        }
+
+        // Check completed
+//        if (completed == true) {
+//            task.setCompleted();
+//        }
+
         return task;
     }
 
