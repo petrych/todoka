@@ -117,6 +117,25 @@ public class TaskListActivity extends AppCompatActivity {
                 laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
             }
         }
+
+        // Display a message that a list is empty if there is no data in the list
+        displayEmptyListMessage();
+    }
+
+    /**
+     * Display a message that a list is empty if there is no data in the list.
+     * Text for the message is defined in the corresponding list layout.
+     */
+    private void displayEmptyListMessage() {
+        if (todayTasksAdapter.getCount() == 0) {
+            todayTaskListView.setEmptyView((View)findViewById(R.id.empty_list_today));
+        }
+        if (weekTasksAdapter.getCount() == 0) {
+            weekTaskListView.setEmptyView((View)findViewById(R.id.empty_list_week));
+        }
+        if (laterTasksAdapter.getCount() == 0) {
+            laterTaskListView.setEmptyView((View)findViewById(R.id.empty_list_later));
+        }
     }
 
     /**
