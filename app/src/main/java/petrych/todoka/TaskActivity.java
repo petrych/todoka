@@ -28,6 +28,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
     // Data needed for task creation
     private String taskName;
     private String timePeriod;
+    private String taskCategory;
 
     // Storage for all tasks
     private TaskDatabase db;
@@ -77,15 +78,19 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
                 EditText inputTaskName = (EditText) findViewById(R.id.task_name_input);
                 taskName = inputTaskName.getText().toString();
 
+                EditText inputTaskCategory = (EditText) findViewById(R.id.category_input);
+                taskCategory = inputTaskCategory.getText().toString();
+
+
                 // Get the database from the previous activity that called the current one
                 Bundle bundle = getIntent().getExtras();
                 db = bundle.getParcelable("db");
 
                 // Create a new task and update the database
-                TaskItem task = db.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriod), "");
+                TaskItem task = db.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriod), taskCategory);
                 db.addTaskToList(task);
                 // TODO Use for testing purposes
-                //Toast.makeText(TaskActivity.this, "Task timePeriod is " + timePeriod, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(TaskActivity.this, "Task category is " + taskCategory, Toast.LENGTH_SHORT).show();
 
                 // Pass the updated database to the previous activity that called the current one
                 Intent resultIntent = new Intent();

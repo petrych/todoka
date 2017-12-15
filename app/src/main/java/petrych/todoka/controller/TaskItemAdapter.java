@@ -33,9 +33,11 @@ public class TaskItemAdapter extends ArrayAdapter<TaskItem> {
 
         // Lookup view for data population
         TextView taskName = (TextView) convertView.findViewById(R.id.task_name);
+        TextView taskCategory = (TextView) convertView.findViewById(R.id.task_category);
 
         // Populate the data into the template view using the data object
         taskName.setText(task.getName());
+        taskCategory.setText(task.getCategory());
 
         // Return the completed view to render on screen
         return convertView;
