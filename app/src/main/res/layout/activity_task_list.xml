@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -26,6 +25,7 @@
             android:id="@+id/today_task_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/today_task_list_title"
             />
 
         <TextView
@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_list"
+            android:layout_below="@id/today_task_list_view"
             />
 
         # Container for WEEK tasks
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:text="@string/week_task_list_title"
             android:textSize="30sp"
+            android:layout_below="@id/empty_list_today"
             />
 
 
@@ -49,6 +51,7 @@
             android:id="@+id/week_task_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/week_task_list_title"
             />
 
         <TextView
@@ -56,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_list"
+            android:layout_below="@id/week_task_list_view"
             />
 
         # Container for LATER tasks
@@ -65,12 +69,14 @@
             android:layout_height="wrap_content"
             android:text="@string/later_task_list_title"
             android:textSize="30sp"
+            android:layout_below="@id/empty_list_week"
             />
 
         <ListView
             android:id="@+id/later_task_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/later_task_list_title"
             />
 
         <TextView
@@ -78,6 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_list"
+            android:layout_below="@id/later_task_list_view"
             />
 
         <ImageButton
@@ -88,10 +95,11 @@
             android:src="@drawable/ic_add_white_36dp"
             android:elevation="10dp"
             android:layout_marginBottom="50dp"
-            android:layout_marginLeft="310dp"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             />
 
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
