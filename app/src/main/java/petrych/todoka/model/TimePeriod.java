@@ -18,4 +18,22 @@ public enum TimePeriod {
 
         return list;
     }
+
+    public static TimePeriod getTimePeriodFromString(String str) {
+        TimePeriod timePeriod = null;
+        if (str == TODAY.toString()) {
+            timePeriod = TODAY;
+        }
+        if (str == WEEK.toString()) {
+            timePeriod = WEEK;
+        }
+        if (str == LATER.toString()) {
+            timePeriod = LATER;
+        }
+        if (str == COMPLETED.toString()) {
+            timePeriod = COMPLETED;
+        }
+
+        return timePeriod;
+    }
 }
