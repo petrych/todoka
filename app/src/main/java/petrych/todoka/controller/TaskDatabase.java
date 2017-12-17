@@ -3,7 +3,6 @@ package petrych.todoka.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 import petrych.todoka.model.TaskItem;
@@ -23,6 +22,9 @@ public class TaskDatabase implements Parcelable {
 
     private ArrayList<ArrayList<TaskItem>> allTaskLists;
 
+    // Task name in case no other name is provided
+    private final static String DEFAULT_TASK_NAME = "<?>";
+
     // TODO - make connections with Firebase
     public TaskDatabase() {
         this.todayTasks = new ArrayList<>();
@@ -35,6 +37,12 @@ public class TaskDatabase implements Parcelable {
         allTaskLists.add(weekTasks);
         allTaskLists.add(laterTasks);
         allTaskLists.add(completedTasks);
+
+        // TODO Test - populate Today list with 30 tasks
+//        for (int i = 0; i < 30; i++) {
+//            todayTasks.add(new TaskItem("task " + i));
+//        }
+
     }
 
     /**
@@ -104,11 +112,11 @@ public class TaskDatabase implements Parcelable {
      * @return
      */
     public TaskItem createTask(String taskName, TimePeriod timePeriod, String category) {
-        TaskItem task = new TaskItem("");
+        TaskItem task = new TaskItem(DEFAULT_TASK_NAME);
 
         // Check the task name
         if (taskName.isEmpty()) {
-            task.changeName("<?>");
+            task.changeName(DEFAULT_TASK_NAME);
         }
         else {
             task.changeName(taskName);
@@ -124,11 +132,6 @@ public class TaskDatabase implements Parcelable {
         else {
             task.setCategory(category);
         }
-
-        // Check completed
-//        if (completed == true) {
-//            task.setCompleted();
-//        }
 
         return task;
     }

@@ -24,6 +24,8 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
     private Vector<CharSequence> timePeriodChoices;
     // Button to add a newly created task
     private Button addTaskButton;
+    // Cancel task creation
+    private Button cancelButton;
 
     // Data needed for task creation
     private String taskName;
@@ -38,7 +40,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        // Handle spinner for time periods
+        // Handle spinner input for time periods
 
         timePeriodChoices = new Vector<>();
         for (TimePeriod tp : TimePeriod.getAllTimePeriods()) {
@@ -62,11 +64,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
         // Listen to selected items
         timePeriodSpinner.setOnItemSelectedListener(this);
 
-        // TODO Handle category input
-
-
-        // TODO - Update with timePeriod, Category, Completed. | Handle adding new task to database
-
+        // Handle adding task
 
         addTaskButton = (Button) findViewById(R.id.add_task_button);
 
@@ -74,7 +72,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
 
-                // Get input string from the text field
+                // Get input string from the text fields
                 EditText inputTaskName = (EditText) findViewById(R.id.task_name_input);
                 taskName = inputTaskName.getText().toString();
 
@@ -99,6 +97,25 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
             }
         });
+
+        // Handle cancelling
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // TODO - code duplication with the other onClick in addTaskButton
+                Bundle bundle = getIntent().getExtras();
+                db = bundle.getParcelable("db");
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("db", db);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
     }
 
     /**

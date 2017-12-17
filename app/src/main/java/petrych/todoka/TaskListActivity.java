@@ -28,7 +28,7 @@ public class TaskListActivity extends AppCompatActivity {
     // This button opens a screen for task creation
     private ImageButton plusButton;
 
-    public TaskDatabase db;
+    public TaskDatabase db = new TaskDatabase();
 
     // Custom adapter for each task list
     private TaskItemAdapter todayTasksAdapter;
@@ -49,8 +49,6 @@ public class TaskListActivity extends AppCompatActivity {
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
         weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
         laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
-
-        this.db = new TaskDatabase();
 
         // Update all task lists and their corresponding views
         updateAllListsAndViews();

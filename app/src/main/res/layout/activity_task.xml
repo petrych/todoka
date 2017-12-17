@@ -53,6 +53,13 @@
             android:text="@string/add_task"
             />
 
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_task_creation"
+            />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

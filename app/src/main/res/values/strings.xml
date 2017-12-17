@@ -18,5 +18,6 @@
     # Messages
 
     <string name="empty_list">List is empty</string>
+    <string name="cancel_task_creation">Cancel</string>
 
 </resources>
