@@ -80,13 +80,12 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
                 taskCategory = inputTaskCategory.getText().toString();
 
 
-                // Get the database from the previous activity that called the current one
-                Bundle bundle = getIntent().getExtras();
-                db = bundle.getParcelable("db");
+                // Get the database instance
+                db = TaskDatabase.getInstance();
 
                 // Create a new task and update the database
                 TaskItem task = db.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriod), taskCategory);
-                db.addTaskToList(task);
+                db.saveTaskListToJson(db.addTaskToList(task));
                 // TODO Use for testing purposes
                 //Toast.makeText(TaskActivity.this, "Task category is " + taskCategory, Toast.LENGTH_SHORT).show();
 

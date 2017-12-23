@@ -28,7 +28,7 @@ public class TaskListActivity extends AppCompatActivity {
     // This button opens a screen for task creation
     private ImageButton plusButton;
 
-    public TaskDatabase db = TaskDatabase.getInstance();
+    public TaskDatabase db;
 
     // Custom adapter for each task list
     private TaskItemAdapter todayTasksAdapter;
@@ -44,6 +44,8 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+
+        db = TaskDatabase.getInstance();
 
         // Set view for each task list
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
