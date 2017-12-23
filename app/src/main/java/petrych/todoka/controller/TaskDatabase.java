@@ -3,6 +3,15 @@ package petrych.todoka.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 import petrych.todoka.model.TaskItem;
@@ -16,6 +25,8 @@ public class TaskDatabase implements Parcelable {
     // Singleton database instance
     private static TaskDatabase db = null;
 
+    private DatabaseReference tasksDB;
+
     // Storage for the tasks in the corresponding list.
     private ArrayList<TaskItem> todayTasks;
     private ArrayList<TaskItem> weekTasks;
@@ -27,11 +38,12 @@ public class TaskDatabase implements Parcelable {
     // Task name in case no other name is provided
     private final static String DEFAULT_TASK_NAME = "<?>";
 
-    // TODO - make connections with Firebase
     private TaskDatabase() {
-        this.todayTasks = new ArrayList<>();
-        this.weekTasks = new ArrayList<>();
-        this.laterTasks = new ArrayList<>();
+        tasksDB = FirebaseDatabase.getInstance().getReference().child("tasks");
+
+        this.todayTasks = readTaskListFromJson(TimePeriod.TODAY.toString());
+        this.weekTasks = readTaskListFromJson(TimePeriod.WEEK.toString());
+        this.laterTasks = readTaskListFromJson(TimePeriod.LATER.toString());
         this.completedTasks = new ArrayList<>();
 
         this.allTaskLists = new ArrayList<>();
@@ -41,9 +53,74 @@ public class TaskDatabase implements Parcelable {
         allTaskLists.add(completedTasks);
 
         // TODO Test - populate Today list with 30 tasks
-//        for (int i = 0; i < 30; i++) {
-//            todayTasks.add(new TaskItem("task " + i));
+//        for (int i = 0; i < 3; i++) {
+//            laterTasks.add(new TaskItem("task " + i, TimePeriod.LATER, "cat " + i));
 //        }
+//        saveTaskListToJson(laterTasks);
+
+    }
+
+    // TODO
+    public ArrayList<TaskItem> readTaskListFromJson(final String timePeriodString) {
+
+        // First call
+
+        tasksDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot taskSnapshot: dataSnapshot.getChildren()) {
+                    TaskItem taskItem = taskSnapshot.getValue(TaskItem.class);
+                    TimePeriod tpFromString = TimePeriod.getTimePeriodFromString(timePeriodString);
+                    getListWithTasks(tpFromString).add(taskItem);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Code
+            }
+        });
+
+        // On data change
+
+        ArrayList<TaskItem> taskList = new ArrayList<>();
+        tasksDB.child(timePeriodString).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot taskSnapshot: dataSnapshot.getChildren()) {
+                    TaskItem taskItem = taskSnapshot.getValue(TaskItem.class);
+                    TimePeriod tpFromString = TimePeriod.getTimePeriodFromString(timePeriodString);
+                    getListWithTasks(tpFromString).add(taskItem);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) { }
+        });
+
+        return taskList;
+    }
+
+    // TODO
+    public void saveTaskListToJson(ArrayList<TaskItem> taskList) {
+        JSONArray jsonTaskList = new JSONArray();
+
+        for (TaskItem task : taskList) {
+            JSONObject taskToJson = new JSONObject();
+
+            taskToJson.put("taskName", task.getTaskName());
+            taskToJson.put("completed", task.isCompleted());
+            taskToJson.put("timePeriod", task.getTimePeriod().toString());
+
+            if (task.getCategory() == null) {
+                taskToJson.put("category", null);
+            }
+            else {
+                taskToJson.put("category", task.getCategory().toString());
+            }
+
+            jsonTaskList.add(taskToJson);
+            tasksDB.child(task.getTimePeriod().toString()).push().setValue(taskToJson);
+        }
 
     }
 
@@ -132,10 +209,10 @@ public class TaskDatabase implements Parcelable {
 
         // Check the task name
         if (taskName.isEmpty()) {
-            task.changeName(DEFAULT_TASK_NAME);
+            task.setTaskName(DEFAULT_TASK_NAME);
         }
         else {
-            task.changeName(taskName);
+            task.setTaskName(taskName);
         }
 
         // No check for time period is needed, because it is always available
@@ -214,7 +291,7 @@ public class TaskDatabase implements Parcelable {
         for (ArrayList list : allTaskLists) {
             for (Object taskObj : list) {
                 TaskItem task = (TaskItem) taskObj;
-                if (task.getName().contains(str)) {
+                if (task.getTaskName().contains(str)) {
                     result.add(task);
                 }
             }

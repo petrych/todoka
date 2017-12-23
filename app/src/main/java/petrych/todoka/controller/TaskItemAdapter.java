@@ -36,7 +36,7 @@ public class TaskItemAdapter extends ArrayAdapter<TaskItem> {
         TextView taskCategory = (TextView) convertView.findViewById(R.id.task_category);
 
         // Populate the data into the template view using the data object
-        taskName.setText(task.getName());
+        taskName.setText(task.getTaskName());
         taskCategory.setText(task.getCategory());
 
         // Return the completed view to render on screen
