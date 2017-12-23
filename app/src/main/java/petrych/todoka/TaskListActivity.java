@@ -28,7 +28,7 @@ public class TaskListActivity extends AppCompatActivity {
     // This button opens a screen for task creation
     private ImageButton plusButton;
 
-    public TaskDatabase db = new TaskDatabase();
+    public TaskDatabase db = TaskDatabase.getInstance();
 
     // Custom adapter for each task list
     private TaskItemAdapter todayTasksAdapter;

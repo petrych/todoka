@@ -13,6 +13,8 @@ import petrych.todoka.model.TimePeriod;
  */
 
 public class TaskDatabase implements Parcelable {
+    // Singleton database instance
+    private static TaskDatabase db = null;
 
     // Storage for the tasks in the corresponding list.
     private ArrayList<TaskItem> todayTasks;
@@ -26,7 +28,7 @@ public class TaskDatabase implements Parcelable {
     private final static String DEFAULT_TASK_NAME = "<?>";
 
     // TODO - make connections with Firebase
-    public TaskDatabase() {
+    private TaskDatabase() {
         this.todayTasks = new ArrayList<>();
         this.weekTasks = new ArrayList<>();
         this.laterTasks = new ArrayList<>();
@@ -43,6 +45,20 @@ public class TaskDatabase implements Parcelable {
 //            todayTasks.add(new TaskItem("task " + i));
 //        }
 
+    }
+
+    /**
+     * Return the only database object.
+     * Creates a new object if the current one is null.
+     * (use of the Singleton pattern)
+     * @return
+     */
+    public static TaskDatabase getInstance() {
+        if (db == null) {
+            db = new TaskDatabase();
+        }
+
+        return db;
     }
 
     /**
