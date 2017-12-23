@@ -21,6 +21,13 @@ public class TaskItem implements Parcelable {
     private TimePeriod timePeriod;
     private String category;
 
+    public TaskItem() {
+        this.taskName = "<?>";
+        this.completed = false;
+        this.timePeriod = TimePeriod.TODAY;    // Default time period.
+        this.category = null;
+    }
+
     public TaskItem(String taskName) {
         this.taskName = taskName;
         this.completed = false;
@@ -94,7 +101,7 @@ public class TaskItem implements Parcelable {
     };
 
     public String taskToString() {
-        String str = "Task name: " + this.getName() +
+        String str = "Task name: " + this.getTaskName() +
                 ", time period: " + this.getTimePeriod();
 
         if (this.isCompleted()) {
@@ -112,11 +119,11 @@ public class TaskItem implements Parcelable {
         return str;
     }
 
-    public String getName() {
+    public String getTaskName() {
         return taskName;
     }
 
-    public void changeName(String name) {
+    public void setTaskName(String name) {
         this.taskName = name;
     }
 
