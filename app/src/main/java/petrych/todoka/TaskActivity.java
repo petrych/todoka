@@ -85,7 +85,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 // Create a new task and update the database
                 TaskItem task = db.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriod), taskCategory);
-                db.saveTaskListToJson(db.addTaskToList(task));
+                db.saveTaskToJson(task);
                 // TODO Use for testing purposes
                 //Toast.makeText(TaskActivity.this, "Task category is " + taskCategory, Toast.LENGTH_SHORT).show();
 

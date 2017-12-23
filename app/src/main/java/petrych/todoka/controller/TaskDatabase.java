@@ -3,13 +3,12 @@ package petrych.todoka.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -41,10 +40,14 @@ public class TaskDatabase implements Parcelable {
     private TaskDatabase() {
         tasksDB = FirebaseDatabase.getInstance().getReference().child("tasks");
 
-        this.todayTasks = readTaskListFromJson(TimePeriod.TODAY.toString());
-        this.weekTasks = readTaskListFromJson(TimePeriod.WEEK.toString());
-        this.laterTasks = readTaskListFromJson(TimePeriod.LATER.toString());
+        this.todayTasks = new ArrayList<>();
+        this.weekTasks = new ArrayList<>();
+        this.laterTasks = new ArrayList<>();
         this.completedTasks = new ArrayList<>();
+
+        readTaskListFromJson(TimePeriod.TODAY.toString());
+        readTaskListFromJson(TimePeriod.WEEK.toString());
+        readTaskListFromJson(TimePeriod.LATER.toString());
 
         this.allTaskLists = new ArrayList<>();
         allTaskLists.add(todayTasks);
@@ -60,68 +63,64 @@ public class TaskDatabase implements Parcelable {
 
     }
 
-    // TODO
-    public ArrayList<TaskItem> readTaskListFromJson(final String timePeriodString) {
-
-        // First call
-
-        tasksDB.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot taskSnapshot: dataSnapshot.getChildren()) {
-                    TaskItem taskItem = taskSnapshot.getValue(TaskItem.class);
-                    TimePeriod tpFromString = TimePeriod.getTimePeriodFromString(timePeriodString);
-                    getListWithTasks(tpFromString).add(taskItem);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Code
-            }
-        });
+    /**
+     * Get task list from Firebase
+     * @param timePeriodString
+     * @return
+     */
+    public void readTaskListFromJson(final String timePeriodString) {
 
         // On data change
 
-        ArrayList<TaskItem> taskList = new ArrayList<>();
-        tasksDB.child(timePeriodString).addValueEventListener(new ValueEventListener() {
+        tasksDB.child(timePeriodString).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot taskSnapshot: dataSnapshot.getChildren()) {
-                    TaskItem taskItem = taskSnapshot.getValue(TaskItem.class);
-                    TimePeriod tpFromString = TimePeriod.getTimePeriodFromString(timePeriodString);
-                    getListWithTasks(tpFromString).add(taskItem);
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //for (DataSnapshot taskSnapshot: dataSnapshot.getChildren()) {
+                    TaskItem taskItem = dataSnapshot.getValue(TaskItem.class);
+                    addTaskToList(taskItem);
+
+                //}
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError firebaseError) { }
         });
-
-        return taskList;
     }
 
-    // TODO
-    public void saveTaskListToJson(ArrayList<TaskItem> taskList) {
-        JSONArray jsonTaskList = new JSONArray();
+    /**
+     *
+     * @param task
+     */
+    public void saveTaskToJson(TaskItem task) {
+        JSONObject taskToJson = new JSONObject();
 
-        for (TaskItem task : taskList) {
-            JSONObject taskToJson = new JSONObject();
+        taskToJson.put("taskName", task.getTaskName());
+        taskToJson.put("completed", task.isCompleted());
+        taskToJson.put("timePeriod", task.getTimePeriod().toString());
 
-            taskToJson.put("taskName", task.getTaskName());
-            taskToJson.put("completed", task.isCompleted());
-            taskToJson.put("timePeriod", task.getTimePeriod().toString());
-
-            if (task.getCategory() == null) {
-                taskToJson.put("category", null);
-            }
-            else {
-                taskToJson.put("category", task.getCategory().toString());
-            }
-
-            jsonTaskList.add(taskToJson);
-            tasksDB.child(task.getTimePeriod().toString()).push().setValue(taskToJson);
+        if (task.getCategory() == null) {
+            taskToJson.put("category", null);
+        }
+        else {
+            taskToJson.put("category", task.getCategory().toString());
         }
 
+        tasksDB.child(task.getTimePeriod().toString()).push().setValue(taskToJson);
     }
 
     /**
