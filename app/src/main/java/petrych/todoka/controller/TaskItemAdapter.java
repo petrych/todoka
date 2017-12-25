@@ -13,12 +13,15 @@ import petrych.todoka.R;
 import petrych.todoka.model.TaskItem;
 
 /**
- *
+ * Connects task items data to corresponding parts in list view.
  */
 
 public class TaskItemAdapter extends ArrayAdapter<TaskItem> {
+    private ArrayList<TaskItem> taskList;
+
     public TaskItemAdapter(Context context, ArrayList<TaskItem> tasks) {
         super(context, R.layout.task_item, tasks);
+        taskList = tasks;
     }
 
     @Override
@@ -33,11 +36,18 @@ public class TaskItemAdapter extends ArrayAdapter<TaskItem> {
 
         // Lookup view for data population
         TextView taskName = (TextView) convertView.findViewById(R.id.task_name);
+        TextView taskCategory = (TextView) convertView.findViewById(R.id.task_category);
 
         // Populate the data into the template view using the data object
-        taskName.setText(task.getName());
+        taskName.setText(task.getTaskName());
+        taskCategory.setText(task.getCategory());
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return taskList.size();
     }
 }

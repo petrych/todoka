@@ -46,18 +46,18 @@
             android:imeOptions="actionDone"
             />
 
-        <CheckBox
-            android:id="@+id/completed_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/completed_title"
-            />
-
         <Button
             android:id="@+id/add_task_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_task"
+            />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_task_creation"
             />
 
     </LinearLayout>

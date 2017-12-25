@@ -10,12 +10,13 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import petrych.todoka.controller.TaskDatabase;
+import petrych.todoka.controller.DataLoadedListener;
+import petrych.todoka.controller.DBHandler;
 import petrych.todoka.controller.TaskItemAdapter;
 import petrych.todoka.model.TaskItem;
 import petrych.todoka.model.TimePeriod;
 
-public class TaskListActivity extends AppCompatActivity {
+public class TaskListActivity extends AppCompatActivity implements DataLoadedListener {
 
     // Identifies a request from this activity
     static final int PICK_CONTACT_REQUEST = 1;  // The request code
@@ -28,7 +29,8 @@ public class TaskListActivity extends AppCompatActivity {
     // This button opens a screen for task creation
     private ImageButton plusButton;
 
-    public TaskDatabase db;
+    // Task lists handling with the database
+    public DBHandler dbHandler;
 
     // Custom adapter for each task list
     private TaskItemAdapter todayTasksAdapter;
@@ -45,15 +47,14 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
+        // Initialize connection to the database
+        dbHandler = DBHandler.getInstance();
+        dbHandler.addDataLoadedListener(this);
+
         // Set view for each task list
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
         weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
         laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
-
-        this.db = new TaskDatabase();
-
-        // Update all task lists and their corresponding views
-        updateAllListsAndViews();
 
         plusButton = (ImageButton) findViewById(R.id.plus_button);
         plusButton.setOnClickListener(new View.OnClickListener() {
@@ -61,10 +62,6 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addTask = new Intent(TaskListActivity.this, TaskActivity.class);
-
-                // Pass existing database object to the next activity
-                addTask.putExtra("db", db);
-
                 startActivityForResult(addTask, PICK_CONTACT_REQUEST);
             }
         });
@@ -84,15 +81,9 @@ public class TaskListActivity extends AppCompatActivity {
         switch (requestCode) {
             case (PICK_CONTACT_REQUEST): {
                 if (resultCode == Activity.RESULT_OK) {
-
-                    // Get the data from the previous activity
-                    Bundle bundle = data.getExtras();
-                    db = bundle.getParcelable("db");
-
                     // Update all task lists and their adapters
                     updateAllListsAndViews();
                 }
-                break;
             }
         }
     }
@@ -104,18 +95,36 @@ public class TaskListActivity extends AppCompatActivity {
     private void updateAllListsAndViews() {
         for (TimePeriod time_Period : TimePeriod.getAllTimePeriods()) {
             if (time_Period == TimePeriod.TODAY) {
-                todayTasks = db.getListWithTasks(TimePeriod.TODAY);
+                todayTasks = dbHandler.getListWithTasks(TimePeriod.TODAY);
                 todayTasksAdapter = setAdapterForTaskList(todayTasks, todayTaskListView);
             }
 
             if (time_Period == TimePeriod.WEEK) {
-                weekTasks = db.getListWithTasks(TimePeriod.WEEK);
+                weekTasks = dbHandler.getListWithTasks(TimePeriod.WEEK);
                 weekTasksAdapter = setAdapterForTaskList(weekTasks, weekTaskListView);
             }
             if (time_Period == TimePeriod.LATER) {
-                laterTasks = db.getListWithTasks(TimePeriod.LATER);
+                laterTasks = dbHandler.getListWithTasks(TimePeriod.LATER);
                 laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
             }
+        }
+        // Display a message that a list is empty if there is no data in the list
+        displayEmptyListMessage();
+    }
+
+    /**
+     * Display a message that a list is empty if there is no data in the list.
+     * Text for the message is defined in the corresponding list layout.
+     */
+    private void displayEmptyListMessage() {
+        if (todayTasksAdapter.getCount() == 0) {
+            todayTaskListView.setEmptyView((View)findViewById(R.id.empty_list_today));
+        }
+        if (weekTasksAdapter.getCount() == 0) {
+            weekTaskListView.setEmptyView((View)findViewById(R.id.empty_list_week));
+        }
+        if (laterTasksAdapter.getCount() == 0) {
+            laterTaskListView.setEmptyView((View)findViewById(R.id.empty_list_later));
         }
     }
 
@@ -134,5 +143,10 @@ public class TaskListActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         return adapter;
+    }
+
+    @Override
+    public void onDataLoaded() {
+        updateAllListsAndViews();
     }
 }

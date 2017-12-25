@@ -15,4 +15,9 @@
     <string name="week_task_list_title">Week</string>
     <string name="later_task_list_title">Later</string>
 
+    # Messages
+
+    <string name="empty_list">List is empty</string>
+    <string name="cancel_task_creation">Cancel</string>
+
 </resources>

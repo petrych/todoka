@@ -1,9 +1,13 @@
 package petrych.todoka.controller;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import petrych.todoka.model.TaskItem;
 import petrych.todoka.model.TimePeriod;
@@ -12,89 +16,100 @@ import petrych.todoka.model.TimePeriod;
  * This class defines that tasks are stored in the task lists.
  */
 
-public class TaskDatabase implements Parcelable {
+public class DBHandler {
+    // Singleton database instance
+    private static DBHandler dbHandler = null;
 
-    // Storage for the tasks in the corresponding list.
+    private DatabaseReference tasksDB;
+
+    // Storage for the tasks in the corresponding list
     private ArrayList<TaskItem> todayTasks;
     private ArrayList<TaskItem> weekTasks;
     private ArrayList<TaskItem> laterTasks;
     private ArrayList<TaskItem> completedTasks;
 
     private ArrayList<ArrayList<TaskItem>> allTaskLists;
+    private List<DataLoadedListener> dataLoadedListeners;
 
-    // TODO - make connections with Firebase
-    public TaskDatabase() {
+    private DBHandler() {
+        tasksDB = FirebaseDatabase.getInstance().getReference().child("tasks");
+
         this.todayTasks = new ArrayList<>();
         this.weekTasks = new ArrayList<>();
         this.laterTasks = new ArrayList<>();
         this.completedTasks = new ArrayList<>();
+        this.dataLoadedListeners = new ArrayList<>();
+
+        readTaskListFromDB(TimePeriod.TODAY.toString());
+        readTaskListFromDB(TimePeriod.WEEK.toString());
+        readTaskListFromDB(TimePeriod.LATER.toString());
 
         this.allTaskLists = new ArrayList<>();
         allTaskLists.add(todayTasks);
         allTaskLists.add(weekTasks);
         allTaskLists.add(laterTasks);
         allTaskLists.add(completedTasks);
+
+        // TODO Test - populate Today list with 30 tasks
+//        for (int i = 0; i < 3; i++) {
+//            laterTasks.add(new TaskItem("task " + i, TimePeriod.LATER, "cat " + i));
+//        }
+//        saveTaskListToJson(laterTasks);
+
+    }
+
+    public void addDataLoadedListener(DataLoadedListener dataLoadedListener){
+        this.dataLoadedListeners.add(dataLoadedListener);
     }
 
     /**
-     * This method is a part of the implementation of Parcelable interface
-     * which makes the data transferrable between activities.
-     * @param in
+     * Get task list from Firebase database
+     * @param timePeriodString
      */
-    protected TaskDatabase(Parcel in) {
-        // read list by using TaskItem.CREATOR
-        this.todayTasks = new ArrayList<>();
-        in.readTypedList(todayTasks, TaskItem.CREATOR);
+    public void readTaskListFromDB(final String timePeriodString) {
+        tasksDB.child(timePeriodString).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                TaskItem taskItem = dataSnapshot.getValue(TaskItem.class);
+                addTaskToList(taskItem);
+                for (DataLoadedListener listener: dataLoadedListeners) {
+                    listener.onDataLoaded();
+                }
+            }
 
-        this.weekTasks = new ArrayList<>();
-        in.readTypedList(weekTasks, TaskItem.CREATOR);
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-        this.laterTasks = new ArrayList<>();
-        in.readTypedList(laterTasks, TaskItem.CREATOR);
+            }
 
-        this.completedTasks = new ArrayList<>();
-        in.readTypedList(completedTasks, TaskItem.CREATOR);
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) { }
+        });
     }
 
     /**
-     * This method is a part of the implementation of Parcelable interface
-     * which makes the data transferrable between activities.
-     * @param dest
-     * @param flags
+     * Returns the only one database object.
+     * Creates a new object if the current one is null.
+     * (use of the Singleton pattern)
+     * @return database object
      */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(todayTasks);
-        dest.writeTypedList(weekTasks);
-        dest.writeTypedList(laterTasks);
-        dest.writeTypedList(completedTasks);
-    }
-
-    /**
-     * This method is a part of the implementation of Parcelable interface
-     * which makes the data transferrable between activities.
-     * @return
-     */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    /**
-     * This method is a part of the implementation of Parcelable interface
-     * which makes the data transferrable between activities.
-     */
-    public static final Creator<TaskDatabase> CREATOR = new Creator<TaskDatabase>() {
-        @Override
-        public TaskDatabase createFromParcel(Parcel in) {
-            return new TaskDatabase(in);
+    public static DBHandler getInstance() {
+        if (dbHandler == null) {
+            dbHandler = new DBHandler();
         }
 
-        @Override
-        public TaskDatabase[] newArray(int size) {
-            return new TaskDatabase[size];
-        }
-    };
+        return dbHandler;
+    }
 
     /**
      * Creates a new task with the given task name,
@@ -102,14 +117,28 @@ public class TaskDatabase implements Parcelable {
      * @param taskName
      * @return
      */
-    public TaskItem createTask(String taskName) {
-        TaskItem task;
+    public TaskItem createTask(String taskName, TimePeriod timePeriod, String category) {
+        TaskItem task = new TaskItem();
+
+        // Check the task name
         if (taskName.isEmpty()) {
-            task = new TaskItem("<?>");
+            task.setTaskName(TaskItem.getDefaultTaskName());
         }
         else {
-            task = new TaskItem(taskName);
+            task.setTaskName(taskName);
         }
+
+        // No check for time period is needed, because it is always available
+        task.setTimePeriod(timePeriod);
+
+        // Check the category
+        if (category.isEmpty()) {
+            task.setCategory(null);
+        }
+        else {
+            task.setCategory(category);
+        }
+
         return task;
     }
 
@@ -175,7 +204,7 @@ public class TaskDatabase implements Parcelable {
         for (ArrayList list : allTaskLists) {
             for (Object taskObj : list) {
                 TaskItem task = (TaskItem) taskObj;
-                if (task.getName().contains(str)) {
+                if (task.getTaskName().contains(str)) {
                     result.add(task);
                 }
             }
