@@ -10,11 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Vector;
 
-import petrych.todoka.controller.TaskDatabase;
+import petrych.todoka.controller.DBHandler;
 import petrych.todoka.model.TaskItem;
 import petrych.todoka.model.TimePeriod;
 
@@ -29,16 +31,22 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
 
     // Data needed for task creation
     private String taskName;
-    private String timePeriod;
+    private String timePeriodString;
     private String taskCategory;
 
     // Storage for all tasks
-    private TaskDatabase db;
+    private DBHandler dbHandler;
+    private DatabaseReference tasksDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
+
+        dbHandler = DBHandler.getInstance();
+
+        // Initialize Firebase database reference
+        tasksDB = FirebaseDatabase.getInstance().getReference().child("tasks");
 
         // Handle spinner input for time periods
 
@@ -79,38 +87,25 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
                 EditText inputTaskCategory = (EditText) findViewById(R.id.category_input);
                 taskCategory = inputTaskCategory.getText().toString();
 
-
-                // Get the database instance
-                db = TaskDatabase.getInstance();
-
                 // Create a new task and update the database
-                TaskItem task = db.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriod), taskCategory);
-                db.saveTaskToJson(task);
-                // TODO Use for testing purposes
-                //Toast.makeText(TaskActivity.this, "Task category is " + taskCategory, Toast.LENGTH_SHORT).show();
+                TaskItem task = dbHandler.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriodString), taskCategory);
+                tasksDB.child(timePeriodString).push().setValue(task);
 
                 // Pass the updated database to the previous activity that called the current one
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("db", db);
-                setResult(Activity.RESULT_OK, resultIntent);
+                setResult(Activity.RESULT_OK, new Intent());
                 finish();
             }
         });
 
         // Handle cancelling
+
         cancelButton = (Button) findViewById(R.id.cancel_button);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                // TODO - code duplication with the other onClick in addTaskButton
-                Bundle bundle = getIntent().getExtras();
-                db = bundle.getParcelable("db");
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("db", db);
-                setResult(Activity.RESULT_OK, resultIntent);
+                setResult(Activity.RESULT_OK, new Intent());
                 finish();
             }
         });
@@ -127,7 +122,7 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        timePeriod = adapterView.getItemAtPosition(pos).toString();
+        timePeriodString = adapterView.getItemAtPosition(pos).toString();
     }
 
     /**
@@ -137,6 +132,5 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        // stub
     }
 }
