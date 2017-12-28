@@ -56,6 +56,8 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
         laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
 
+        updateAllListsAndViews();
+
         plusButton = (ImageButton) findViewById(R.id.plus_button);
         plusButton.setOnClickListener(new View.OnClickListener() {
             // Opens a new screen for task creation
