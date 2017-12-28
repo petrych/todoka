@@ -50,12 +50,24 @@ public class DBHandler {
         allTaskLists.add(laterTasks);
         allTaskLists.add(completedTasks);
 
-        // TODO Test - populate Today list with 30 tasks
-//        for (int i = 0; i < 3; i++) {
-//            laterTasks.add(new TaskItem("task " + i, TimePeriod.LATER, "cat " + i));
+        // TODO Test - populate Today list with 12 tasks
+//        for (int i = 0; i < 12; i++) {
+//            TaskItem task = createTask("task " + i, TimePeriod.TODAY, "cat " + i);
+//            todayTasks.add(task);
+//            tasksDB.child(TimePeriod.TODAY.toString()).push().setValue(task);
 //        }
-//        saveTaskListToJson(laterTasks);
-
+//
+//        for (int i = 0; i < 12; i++) {
+//            TaskItem task = createTask("task " + i, TimePeriod.WEEK, "cat " + i);
+//            weekTasks.add(task);
+//            tasksDB.child(TimePeriod.WEEK.toString()).push().setValue(task);
+//        }
+//
+//        for (int i = 0; i < 12; i++) {
+//            TaskItem task = createTask("task " + i, TimePeriod.LATER, "cat " + i);
+//            laterTasks.add(task);
+//            tasksDB.child(TimePeriod.LATER.toString()).push().setValue(task);
+//        }
     }
 
     public void addDataLoadedListener(DataLoadedListener dataLoadedListener){
