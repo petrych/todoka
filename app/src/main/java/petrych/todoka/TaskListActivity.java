@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -71,6 +73,28 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     }
 
     /**
+     * Sets the height of a ListView dynamically.
+     **/
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter adapter = listView.getAdapter();
+        //check adapter if null
+        if (adapter == null) {
+            return;
+        }
+        int height = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            height += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
+        layoutParams.height = height + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(layoutParams);
+        listView.requestLayout();
+    }
+
+    /**
      * Receives the result from the activity where a task was created.
      * When you receive the result Intent, the callback provides the same request code
      * so that your app can properly identify the result and determine how to handle it.
@@ -92,27 +116,28 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     }
 
     /**
-     * Updates all the task lists declared as fields and their corresponding adapters.
-     * Thus the view is updated with fresh data.
+     * Updates task lists from the database and connects corresponding adapters to them,
+     * If a task list is empty, displays a message about it.
+     * Thus ListViews are updated with fresh data.
      */
     private void updateAllListsAndViews() {
-        for (TimePeriod time_Period : TimePeriod.getAllTimePeriods()) {
-            if (time_Period == TimePeriod.TODAY) {
-                todayTasks = dbHandler.getListWithTasks(TimePeriod.TODAY);
-                todayTasksAdapter = setAdapterForTaskList(todayTasks, todayTaskListView);
-            }
+        // Get all the task lists from the database and connect corresponding adapters to them
+        todayTasks = dbHandler.getListWithTasks(TimePeriod.TODAY);
+        todayTasksAdapter = setAdapterForTaskList(todayTasks, todayTaskListView);
 
-            if (time_Period == TimePeriod.WEEK) {
-                weekTasks = dbHandler.getListWithTasks(TimePeriod.WEEK);
-                weekTasksAdapter = setAdapterForTaskList(weekTasks, weekTaskListView);
-            }
-            if (time_Period == TimePeriod.LATER) {
-                laterTasks = dbHandler.getListWithTasks(TimePeriod.LATER);
-                laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
-            }
-        }
+        weekTasks = dbHandler.getListWithTasks(TimePeriod.WEEK);
+        weekTasksAdapter = setAdapterForTaskList(weekTasks, weekTaskListView);
+
+        laterTasks = dbHandler.getListWithTasks(TimePeriod.LATER);
+        laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
+
         // Display a message that a list is empty if there is no data in the list
         displayEmptyListMessage();
+
+        // Set height of listView so all list items are shown in their list view
+        setListViewHeightBasedOnChildren(todayTaskListView);
+        setListViewHeightBasedOnChildren(weekTaskListView);
+        setListViewHeightBasedOnChildren(laterTaskListView);
     }
 
     /**
