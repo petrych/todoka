@@ -20,7 +20,6 @@
 
         android:maxLines="10"
         android:minLines="1"
-        android:lines="10"
         android:singleLine="false"
 
         android:textSize="22sp"
@@ -38,7 +37,6 @@
 
         android:maxLines="10"
         android:minLines="1"
-        android:lines="10"
         android:singleLine="false"
 
         android:layout_below="@id/task_name"
