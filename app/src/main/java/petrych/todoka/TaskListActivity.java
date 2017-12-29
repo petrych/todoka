@@ -58,8 +58,11 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
         laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
 
+        // Get all the task lists from the database and connect corresponding adapters to them
+        initializeListsAndAdapters();
+
         // Update list views with list items
-        updateAllListsAndViews();
+        updateAllListViews();
 
         plusButton = (ImageButton) findViewById(R.id.plus_button);
         plusButton.setOnClickListener(new View.OnClickListener() {
@@ -118,27 +121,21 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
             case (PICK_CONTACT_REQUEST): {
                 if (resultCode == Activity.RESULT_OK) {
                     // Update all task lists and their adapters
-                    updateAllListsAndViews();
+                    updateAllListViews();
                 }
             }
         }
     }
 
     /**
-     * Updates task lists from the database and connects corresponding adapters to them,
-     * If a task list is empty, displays a message about it.
+     * Updates adapters and their ListViews. If a task list is empty, displays a message about it.
      * Thus ListViews are updated with fresh data.
      */
-    private void updateAllListsAndViews() {
-        // Get all the task lists from the database and connect corresponding adapters to them
-        todayTasks = dbHandler.getListWithTasks(TimePeriod.TODAY);
-        todayTasksAdapter = setAdapterForTaskList(todayTasks, todayTaskListView);
-
-        weekTasks = dbHandler.getListWithTasks(TimePeriod.WEEK);
-        weekTasksAdapter = setAdapterForTaskList(weekTasks, weekTaskListView);
-
-        laterTasks = dbHandler.getListWithTasks(TimePeriod.LATER);
-        laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
+    private void updateAllListViews() {
+        // Update adapters
+        todayTasksAdapter.notifyDataSetChanged();
+        weekTasksAdapter.notifyDataSetChanged();
+        laterTasksAdapter.notifyDataSetChanged();
 
         // Display a message that a list is empty if there is no data in the list
         displayEmptyListMessage();
@@ -150,7 +147,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     }
 
     /**
-     * Display a message that a list is empty if there is no data in the list.
+     * Displays a message that a list is empty if there is no data in the list.
      * Text for the message is defined in the corresponding list layout.
      */
     private void displayEmptyListMessage() {
@@ -172,7 +169,6 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
      * @return adapter
      */
     private TaskItemAdapter setAdapterForTaskList(ArrayList<TaskItem> taskList, ListView listView) {
-
         // Create the adapter to convert list to view
         TaskItemAdapter adapter = new TaskItemAdapter(this, taskList);
 
@@ -182,8 +178,22 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         return adapter;
     }
 
+    /**
+     * Gets task lists from the database and connects corresponding adapters to them.
+     */
+    public void initializeListsAndAdapters() {
+        todayTasks = dbHandler.getListWithTasks(TimePeriod.TODAY);
+        todayTasksAdapter = setAdapterForTaskList(todayTasks, todayTaskListView);
+
+        weekTasks = dbHandler.getListWithTasks(TimePeriod.WEEK);
+        weekTasksAdapter = setAdapterForTaskList(weekTasks, weekTaskListView);
+
+        laterTasks = dbHandler.getListWithTasks(TimePeriod.LATER);
+        laterTasksAdapter = setAdapterForTaskList(laterTasks, laterTaskListView);
+    }
+
     @Override
     public void onDataLoaded() {
-        updateAllListsAndViews();
+        updateAllListViews();
     }
 }
