@@ -73,25 +73,34 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     }
 
     /**
-     * Sets the height of a ListView dynamically.
+     * Sets ListView height dynamically based on the height of the items.
+     *
+     * @param listView to be resized
      **/
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter adapter = listView.getAdapter();
-        //check adapter if null
-        if (adapter == null) {
-            return;
+    public static void setListViewHeightBasedOnItems(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
         }
-        int height = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            height += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
-        layoutParams.height = height + (listView.getDividerHeight() * (adapter.getCount() - 1));
-        listView.setLayoutParams(layoutParams);
-        listView.requestLayout();
     }
 
     /**
@@ -135,9 +144,9 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         displayEmptyListMessage();
 
         // Set height of listView so all list items are shown in their list view
-        setListViewHeightBasedOnChildren(todayTaskListView);
-        setListViewHeightBasedOnChildren(weekTaskListView);
-        setListViewHeightBasedOnChildren(laterTaskListView);
+        setListViewHeightBasedOnItems(todayTaskListView);
+        setListViewHeightBasedOnItems(weekTaskListView);
+        setListViewHeightBasedOnItems(laterTaskListView);
     }
 
     /**
