@@ -26,9 +26,9 @@ import petrych.todoka.model.TimePeriod;
 
 public class TaskListActivity extends AppCompatActivity implements DataLoadedListener {
 
-    // Identifies a request from this activity
-    static final int PICK_CONTACT_REQUEST = 1;  // The request code
-    public static final int RC_SIGN_IN = 1;
+    // Request codes from this activity
+    public static final int RC_TASK_ADDED = 2947;
+    public static final int RC_SIGN_IN = 6733;
 
     // Views for task lists
     private ListView todayTaskListView;
@@ -70,7 +70,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
             @Override
             public void onClick(View v) {
                 Intent addTask = new Intent(TaskListActivity.this, TaskActivity.class);
-                startActivityForResult(addTask, PICK_CONTACT_REQUEST);
+                startActivityForResult(addTask, RC_TASK_ADDED);
             }
         });
 
@@ -98,6 +98,27 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         };
     }
 
+    /**
+     * Receives the result from the activity where a task was created.
+     * When you receive the result Intent, the callback provides the same request code
+     * so that your app can properly identify the result and determine how to handle it.
+     * @param requestCode
+     * @param resultCode
+     * @param data The activity which sends the result
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (RC_TASK_ADDED): {
+                if (resultCode == Activity.RESULT_OK) {
+                    // Update all task lists and their adapters
+                    updateAllListViews();
+                }
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -112,30 +133,37 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         }
     }
 
-    @Override
-    public void onDataLoaded() {
+    private void onSignedInInitialize(String username) {
+        this.username = username;
+
+        // Initialize connection to the database
+        dbHandler = DBHandler.getInstance();
+        dbHandler.addDataLoadedListener(this);
+        dbHandler.attachDatabaseReadListeners();
+
+        // Set view for each task list
+        todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
+        weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
+        laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
+
+        // Get all the task lists from the database and attach corresponding adapters to them
+        initializeListsAndAdapters();
+
+        // Update list views with list items
         updateAllListViews();
     }
 
-    /**
-     * Receives the result from the activity where a task was created.
-     * When you receive the result Intent, the callback provides the same request code
-     * so that your app can properly identify the result and determine how to handle it.
-     * @param requestCode
-     * @param resultCode
-     * @param data The activity which sends the result
-     */
+    private void onSignedOutCleanup() {
+        this.username = null;
+        todayTasksAdapter.clear();
+        weekTasksAdapter.clear();
+        laterTasksAdapter.clear();
+        dbHandler.detachDatabaseReadListeners();
+    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (PICK_CONTACT_REQUEST): {
-                if (resultCode == Activity.RESULT_OK) {
-                    // Update all task lists and their adapters
-                    updateAllListViews();
-                }
-            }
-        }
+    public void onDataLoaded() {
+        updateAllListViews();
     }
 
     /**
@@ -232,33 +260,5 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         listView.setAdapter(adapter);
 
         return adapter;
-    }
-
-    private void onSignedOutCleanup() {
-        this.username = null;
-        todayTasksAdapter.clear();
-        weekTasksAdapter.clear();
-        laterTasksAdapter.clear();
-        dbHandler.detachDatabaseReadListeners();
-    }
-
-    private void onSignedInInitialize(String username) {
-        this.username = username;
-
-        // Initialize connection to the database
-        dbHandler = DBHandler.getInstance();
-        dbHandler.addDataLoadedListener(this);
-        dbHandler.attachDatabaseReadListeners();
-
-        // Set view for each task list
-        todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
-        weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
-        laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
-
-        // Get all the task lists from the database and attach corresponding adapters to them
-        initializeListsAndAdapters();
-
-        // Update list views with list items
-        updateAllListViews();
     }
 }

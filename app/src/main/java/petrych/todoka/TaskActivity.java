@@ -91,7 +91,6 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
                 TaskItem task = dbHandler.createTask(taskName, TimePeriod.getTimePeriodFromString(timePeriodString), taskCategory);
                 tasksDB.child(timePeriodString).push().setValue(task);
 
-                // Pass the updated database to the previous activity that called the current one
                 setResult(Activity.RESULT_OK, new Intent());
                 finish();
             }
@@ -105,11 +104,9 @@ public class TaskActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onClick(View view) {
-                setResult(Activity.RESULT_OK, new Intent());
                 finish();
             }
         });
-
     }
 
     /**
