@@ -21,7 +21,12 @@ public class DBHandler {
     private static DBHandler dbHandler = null;
 
     private DatabaseReference tasksDB;
-    private ChildEventListener childEventListener;
+
+    // Database listeners for task lists
+    private ChildEventListener todayListListener;
+    private ChildEventListener weekListListener;
+    private ChildEventListener laterListListener;
+    private ChildEventListener completedListListener;
 
     // Storage for the tasks in the corresponding list
     private ArrayList<TaskItem> todayTasks;
@@ -42,15 +47,12 @@ public class DBHandler {
 
         this.dataLoadedListeners = new ArrayList<>();
 
-        readTaskListFromDB(TimePeriod.TODAY.toString());
-        readTaskListFromDB(TimePeriod.WEEK.toString());
-        readTaskListFromDB(TimePeriod.LATER.toString());
-
-        this.allTaskLists = new ArrayList<>();
-        allTaskLists.add(todayTasks);
-        allTaskLists.add(weekTasks);
-        allTaskLists.add(laterTasks);
-        allTaskLists.add(completedTasks);
+        // TODO - this functionality will be needed for task searching
+//        this.allTaskLists = new ArrayList<>();
+//        allTaskLists.add(todayTasks);
+//        allTaskLists.add(weekTasks);
+//        allTaskLists.add(laterTasks);
+//        allTaskLists.add(completedTasks);
 
         // TODO Test - populate Today list with 12 tasks
 //        for (int i = 0; i < 12; i++) {
@@ -77,12 +79,33 @@ public class DBHandler {
     }
 
     /**
-     * Creates and attaches ChildEventListener to a specific task list in the database.
-     * @param timePeriodString the TimePeriod string for a specific task list
+     * Attaches database listeners to all task lists.
+     */
+    public void attachDatabaseReadListeners() {
+        if (todayListListener == null) {
+            todayListListener = createChildEventListener();
+            tasksDB.child(TimePeriod.TODAY.toString()).addChildEventListener(todayListListener);
+        }
+        if (weekListListener == null) {
+            weekListListener = createChildEventListener();
+            tasksDB.child(TimePeriod.WEEK.toString()).addChildEventListener(weekListListener);
+        }
+        if (laterListListener == null) {
+            laterListListener = createChildEventListener();
+            tasksDB.child(TimePeriod.LATER.toString()).addChildEventListener(laterListListener);
+        }
+        if (completedListListener == null) {
+            completedListListener = createChildEventListener();
+            tasksDB.child(TimePeriod.COMPLETED.toString()).addChildEventListener(completedListListener);
+        }
+    }
+
+    /**
+     * Creates new ChildEventListener.
      * @return created ChildEventListener
      */
-    private ChildEventListener attachChildEventListener(String timePeriodString) {
-        childEventListener = new ChildEventListener() {
+    private ChildEventListener createChildEventListener() {
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TaskItem taskItem = dataSnapshot.getValue(TaskItem.class);
@@ -93,43 +116,40 @@ public class DBHandler {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
 
             @Override
             public void onCancelled(DatabaseError firebaseError) { }
         };
-        tasksDB.child(timePeriodString).addChildEventListener(childEventListener);
 
         return childEventListener;
     }
 
     /**
-     * Gets task list from Firebase database.
-     * @param timePeriodString
+     * Detaches database listeners.
      */
-    public void readTaskListFromDB(final String timePeriodString) {
-        attachChildEventListener(timePeriodString);
-    }
-
-    /**
-     * Detaches database listener.
-     */
-    public void detachDatabaseReadListener() {
-        if (childEventListener != null) {
-            tasksDB.removeEventListener(childEventListener);
-            childEventListener = null;
+    public void detachDatabaseReadListeners() {
+        if (todayListListener != null) {
+            tasksDB.removeEventListener(todayListListener);
+            todayListListener = null;
+        }
+        if (weekListListener != null) {
+            tasksDB.removeEventListener(weekListListener);
+            weekListListener = null;
+        }
+        if (laterListListener != null) {
+            tasksDB.removeEventListener(laterListListener);
+            laterListListener = null;
+        }
+        if (completedListListener != null) {
+            tasksDB.removeEventListener(completedListListener);
+            completedListListener = null;
         }
     }
 

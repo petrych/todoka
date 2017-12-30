@@ -239,7 +239,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         todayTasksAdapter.clear();
         weekTasksAdapter.clear();
         laterTasksAdapter.clear();
-        dbHandler.detachDatabaseReadListener();
+        dbHandler.detachDatabaseReadListeners();
     }
 
     private void onSignedInInitialize(String username) {
@@ -248,6 +248,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         // Initialize connection to the database
         dbHandler = DBHandler.getInstance();
         dbHandler.addDataLoadedListener(this);
+        dbHandler.attachDatabaseReadListeners();
 
         // Set view for each task list
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
