@@ -21,6 +21,7 @@ public class DBHandler {
     private static DBHandler dbHandler = null;
 
     private DatabaseReference tasksDB;
+    private ChildEventListener childEventListener;
 
     // Storage for the tasks in the corresponding list
     private ArrayList<TaskItem> todayTasks;
@@ -38,6 +39,7 @@ public class DBHandler {
         this.weekTasks = new ArrayList<>();
         this.laterTasks = new ArrayList<>();
         this.completedTasks = new ArrayList<>();
+
         this.dataLoadedListeners = new ArrayList<>();
 
         readTaskListFromDB(TimePeriod.TODAY.toString());
@@ -75,11 +77,12 @@ public class DBHandler {
     }
 
     /**
-     * Get task list from Firebase database
-     * @param timePeriodString
+     * Creates and attaches ChildEventListener to a specific task list in the database.
+     * @param timePeriodString the TimePeriod string for a specific task list
+     * @return created ChildEventListener
      */
-    public void readTaskListFromDB(final String timePeriodString) {
-        tasksDB.child(timePeriodString).addChildEventListener(new ChildEventListener() {
+    private ChildEventListener attachChildEventListener(String timePeriodString) {
+        childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TaskItem taskItem = dataSnapshot.getValue(TaskItem.class);
@@ -106,7 +109,28 @@ public class DBHandler {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) { }
-        });
+        };
+        tasksDB.child(timePeriodString).addChildEventListener(childEventListener);
+
+        return childEventListener;
+    }
+
+    /**
+     * Gets task list from Firebase database.
+     * @param timePeriodString
+     */
+    public void readTaskListFromDB(final String timePeriodString) {
+        attachChildEventListener(timePeriodString);
+    }
+
+    /**
+     * Detaches database listener.
+     */
+    public void detachDatabaseReadListener() {
+        if (childEventListener != null) {
+            tasksDB.removeEventListener(childEventListener);
+            childEventListener = null;
+        }
     }
 
     /**

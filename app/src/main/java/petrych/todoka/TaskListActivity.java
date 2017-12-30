@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,26 +55,14 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        // Initialize connection to the database
-        dbHandler = DBHandler.getInstance();
-        dbHandler.addDataLoadedListener(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
-
-        // Set view for each task list
-        todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
-        weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
-        laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
-
-        // Get all the task lists from the database and attach corresponding adapters to them
-        initializeListsAndAdapters();
-
-        // Update list views with list items
-        updateAllListViews();
 
         plusButton = (ImageButton) findViewById(R.id.plus_button);
         plusButton.setOnClickListener(new View.OnClickListener() {
@@ -93,9 +80,10 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Toast.makeText(TaskListActivity.this, "You're now signed in. Welcome to FriendlyChat.", Toast.LENGTH_SHORT).show();
+                    onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
+                    onSignedOutCleanup();
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -244,5 +232,32 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         listView.setAdapter(adapter);
 
         return adapter;
+    }
+
+    private void onSignedOutCleanup() {
+        this.username = null;
+        todayTasksAdapter.clear();
+        weekTasksAdapter.clear();
+        laterTasksAdapter.clear();
+        dbHandler.detachDatabaseReadListener();
+    }
+
+    private void onSignedInInitialize(String username) {
+        this.username = username;
+
+        // Initialize connection to the database
+        dbHandler = DBHandler.getInstance();
+        dbHandler.addDataLoadedListener(this);
+
+        // Set view for each task list
+        todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
+        weekTaskListView = (ListView) findViewById(R.id.week_task_list_view);
+        laterTaskListView = (ListView) findViewById(R.id.later_task_list_view);
+
+        // Get all the task lists from the database and attach corresponding adapters to them
+        initializeListsAndAdapters();
+
+        // Update list views with list items
+        updateAllListViews();
     }
 }
