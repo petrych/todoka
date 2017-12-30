@@ -1,5 +1,9 @@
 <resources>
 
+    # Menu
+
+    <string name="sign_out">Sign out</string>
+
     # Task creation
 
     <string name="app_name">TODOka</string>
@@ -9,7 +13,7 @@
     <string name="completed_title">Completed</string>
     <string name="add_task">Add task</string>
 
-    # Task Lists
+    # Task lists
 
     <string name="today_task_list_title">Today</string>
     <string name="week_task_list_title">Week</string>

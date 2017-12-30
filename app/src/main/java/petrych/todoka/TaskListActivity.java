@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -132,6 +135,36 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
     }
+
+    /**
+     * Creates options menu for an activity.
+     * @param menu The options menu in which items are placed
+     * @return true for the menu to be displayed, return false for the menu not to be shown
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**
+     * Processes menu depending on menu option chosen by user.
+     * @param item The menu item that was selected
+     * @return true to consume normal menu processing, false - to allow it to proceed in the activity
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out_menu:
+                // Sign out
+                AuthUI.getInstance().signOut(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     private void onSignedInInitialize(String username) {
         this.username = username;
