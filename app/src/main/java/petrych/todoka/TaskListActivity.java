@@ -2,6 +2,7 @@ package petrych.todoka;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import petrych.todoka.controller.DataLoadedListener;
 import petrych.todoka.controller.DBHandler;
@@ -22,6 +29,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
 
     // Identifies a request from this activity
     static final int PICK_CONTACT_REQUEST = 1;  // The request code
+    public static final int RC_SIGN_IN = 1;
 
     // Views for task lists
     private ListView todayTaskListView;
@@ -44,6 +52,10 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     private ArrayList<TaskItem> weekTasks;
     private ArrayList<TaskItem> laterTasks;
 
+    // Firebase
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +64,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         // Initialize connection to the database
         dbHandler = DBHandler.getInstance();
         dbHandler.addDataLoadedListener(this);
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Set view for each task list
         todayTaskListView = (ListView) findViewById(R.id.today_task_list_view);
@@ -73,9 +86,48 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
                 startActivityForResult(addTask, PICK_CONTACT_REQUEST);
             }
         });
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Toast.makeText(TaskListActivity.this, "You're now signed in. Welcome to FriendlyChat.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // User is signed out
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)
+                                    .setAvailableProviders(
+                                            Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
+    @Override
+    public void onDataLoaded() {
+        updateAllListViews();
+    }
 
     /**
      * Receives the result from the activity where a task was created.
@@ -192,10 +244,5 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         listView.setAdapter(adapter);
 
         return adapter;
-    }
-
-    @Override
-    public void onDataLoaded() {
-        updateAllListViews();
     }
 }
