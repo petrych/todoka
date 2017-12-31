@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -86,7 +87,7 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
                     onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
-                    onSignedOutCleanup();
+                    onSignedOutCleanup(firebaseAuth);
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -102,22 +103,28 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
     }
 
     /**
-     * Receives the result from the activity where a task was created.
-     * When you receive the result Intent, the callback provides the same request code
-     * so that your app can properly identify the result and determine how to handle it.
-     * @param requestCode
-     * @param resultCode
+     * Receives results from signing in and creating a task.
+     * @param requestCode from the activity which sends this callback
+     * @param resultCode to identify the result
      * @param data The activity which sends the result
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (RC_TASK_ADDED): {
-                if (resultCode == Activity.RESULT_OK) {
-                    // Update all task lists and their adapters
-                    updateAllListViews();
-                }
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                // Sign-in succeeded, set up the UI
+                Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                // Sign in was canceled by the user, finish the activity
+                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+        if (requestCode == RC_TASK_ADDED) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Update all task lists and their adapters
+                updateAllListViews();
             }
         }
     }
@@ -186,12 +193,15 @@ public class TaskListActivity extends AppCompatActivity implements DataLoadedLis
         updateAllListViews();
     }
 
-    private void onSignedOutCleanup() {
+    private void onSignedOutCleanup(@NonNull FirebaseAuth firebaseAuth) {
         this.username = null;
-        todayTasksAdapter.clear();
-        weekTasksAdapter.clear();
-        laterTasksAdapter.clear();
-        dbHandler.detachDatabaseReadListeners();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            todayTasksAdapter.clear();
+            weekTasksAdapter.clear();
+            laterTasksAdapter.clear();
+            dbHandler.detachDatabaseReadListeners();
+        }
     }
 
     @Override
